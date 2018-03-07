@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Layout, Menu} from "antd";
+import {Layout, Menu, Icon} from "antd";
 import "./Sider.component.less";
 import menuConfigs from "../../config";
 
@@ -14,12 +14,16 @@ export class MySider extends Component {
 
   render() {
     let menuConfig = menuConfigs.find(item => item.channel === this.props.match.params.channel);
+    let menuItem = menuConfig.menus ? this.renderSubMenus(menuConfig.menus) : this.renderMenu(menuConfig)
+    let defaultOpenKeys = menuConfig.defaultOpenKeys
     return (
       <Sider className="MySider">
         <Menu theme="light"
-              mode="inline">
+              mode="inline"
+              defaultOpenKeys={defaultOpenKeys}
+        >
           {
-            menuConfig.menus.map(each =><Menu.Item key={each.key}>{each.title}</Menu.Item>)
+            menuItem
           }
         </Menu>
       </Sider>
@@ -31,17 +35,16 @@ export class MySider extends Component {
     const path = `${url}/${menu.key}`;
     return (
       <Menu.Item key={path}>
-        { this.renderLink(path, menu.title, menu.openInNewWindow) }
+        { this.renderLink(path, menu.title,menu.icon, menu.openInNewWindow) }
       </Menu.Item>
     );
   }
 
   renderMenus(menu) {
     const {url} = this.props.match;
-
-
+    let subTitle = menu.icon?<span><Icon type={menu.icon}/>{menu.title}</span>:menu.title;
     return (
-      <SubMenu key={`${url}/${menu.key}`} title={menu.title}>
+      <SubMenu key={`${url}/${menu.key}`} title={subTitle}>
         {
           menu.items && menu.items.map(item => {
             const path = `${url}/${menu.key}/${item.key}`;
@@ -78,9 +81,13 @@ export class MySider extends Component {
     );
   }
 
-  renderLink(path, title, openInNewWindow) {
+  renderLink(path, title, icon, openInNewWindow) {
+    console.log("Link:",title)
     if (openInNewWindow) {
       return <a href={path} target="_blank">{title}</a>;
+    }
+    if(icon){
+      return <Link to={path}><Icon type={icon}/>{title}</Link>
     }
     return <Link to={path}>{title}</Link>;
   }

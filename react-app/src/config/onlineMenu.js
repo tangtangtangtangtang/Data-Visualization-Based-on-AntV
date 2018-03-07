@@ -2,11 +2,11 @@
  * Created by tang on 18/3/5.
  */
 export default {
-  channel:"online",
+  channel: "online",
   menus: [
     {
       title: "快速指引",
-      key: "",
+      key: "online-quick-introduction",
       items: [
         {
           title: "简介",
@@ -20,11 +20,31 @@ export default {
     },
     {
       title: "详细文档",
-      key: "",
+      key: "detail",
       items: [
         {
+          title: "折线图",
+          key: "LineGraph"
+        },
+        {
           title: "柱状图",
-          key: "bar"
+          key: "BarGraph"
+        },
+        {
+          title: "饼图",
+          key: "PieGraph"
+        },
+        {
+          title: "点图",
+          key: "PointGraph"
+        },
+        {
+          title: "面积图",
+          key: "AreaGraph"
+        },
+        {
+          title: "箱形图",
+          key: "BoxGraph"
         }
       ]
     },

@@ -6,7 +6,7 @@ export default {
   menus: [
     {
       title: "快速指引",
-      key: "",
+      key: "document-quick-introduction",
       items: [
         {
           title: "简介",
@@ -20,7 +20,7 @@ export default {
     },
     {
       title: "详细文档",
-      key: "",
+      key: "detail",
       items: [
         {
           title: "柱状图",
