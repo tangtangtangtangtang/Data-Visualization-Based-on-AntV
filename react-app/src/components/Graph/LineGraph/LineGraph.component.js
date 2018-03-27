@@ -24,7 +24,6 @@ export default class LineGraph extends Component {
 
 
   componentDidMount() {
-    console.log(this.state.data)
     const chart = new G2.Chart({
       container: 'chartContainer',
     });

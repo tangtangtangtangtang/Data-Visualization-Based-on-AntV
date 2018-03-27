@@ -15,7 +15,6 @@ export default class AddGraph extends Component {
     this.state = {
       visible: false,
     }
-
   }
 
   showModal() {
@@ -38,14 +37,12 @@ export default class AddGraph extends Component {
   }
 
   handleCardClick(e) {
-    console.log(e.target);
     this.setState({
       visible: false
     })
   }
 
   render() {
-
     const GraphType = [
       {
         key: "BarGraph",
@@ -75,8 +72,8 @@ export default class AddGraph extends Component {
     ]
 
     return (
-      <div onClick={this.showModal}>
-        <Icon type="plus-circle-o"/>
+      <div>
+        <span onClick={this.showModal}><Icon type="plus-circle-o" style={{margin:"0 auto"}}/></span>
         <Modal
           width={"80vw"}
           title={"Basic"}

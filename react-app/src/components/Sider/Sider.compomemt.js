@@ -82,7 +82,6 @@ export class MySider extends Component {
   }
 
   renderLink(path, title, icon, openInNewWindow) {
-    console.log("Link:",title)
     if (openInNewWindow) {
       return <a href={path} target="_blank">{title}</a>;
     }
