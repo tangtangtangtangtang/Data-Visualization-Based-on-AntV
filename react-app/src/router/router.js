@@ -23,7 +23,7 @@ export default class AppRoutes extends Component {
       config.menus.forEach(menu => {
         routes.push({
           path: `/${config.channel}/${menu.key}`,
-          component: <span className="1"></span>
+          component: menu.component
         })
         menu.items && menu.items.forEach(segment => {
           routes.push({

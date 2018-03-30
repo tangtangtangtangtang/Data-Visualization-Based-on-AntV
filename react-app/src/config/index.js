@@ -3,5 +3,6 @@
  */
 import mainMenu from "./mainMenu"
 import documentMenu from "./documentMenu"
+import dataMenu from "./dataMenu"
 
-export default [mainMenu , documentMenu]
+export default [mainMenu , documentMenu,dataMenu]

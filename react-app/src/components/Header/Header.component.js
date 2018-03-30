@@ -40,8 +40,9 @@ export class MyHeader extends Component {
               mode="horizontal"
               theme="light"
               style={{lineHeight: '64px', height: "100%", border: "none", float: "right"}}
+              selectedKeys ={["0"]}
             >
-              <Menu.Item key="1" onClick={this.handleAddClik}><AddGraph trigger={this.state.add}/></Menu.Item>
+              <Menu.Item key="1" onClick={this.handleAddClik}><Link to={"/usr/data"}><AddGraph trigger={this.state.add}/></Link></Menu.Item>
               <Menu.Item keu="0"><Link to={"/main"} >{"主页"}</Link></Menu.Item> 
               <Menu.Item key="4"><Link to={"/document"}>{"使用帮助"}</Link></Menu.Item>
             </Menu>

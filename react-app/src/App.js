@@ -7,13 +7,15 @@ import MySider from "./components/Sider";
 import AppContent from "./router/router";
 import { createStore } from 'redux'
 import {Provider} from "react-redux";
-
+import reducer from "./reducer"
 const {Content, Footer} = Layout
 
 class App extends Component {
+
   render() {
+    let store = createStore(reducer)
     return (
-      <Provider>
+      <Provider store={store}>
         <Router>
           <Layout>
             <Route path="/" component={MyHeader}></Route>

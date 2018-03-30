@@ -3,10 +3,12 @@
  */
 export default {
   channel:"document",
+  defaultOpenKeys:["/document/BarGraph","/document/LineGraph","/document/PieGraph","/document/AreaGraph","/document/PointGraph"],
   menus: [
     {
-      title: "快速指引",
-      key: "document-quick-introduction",
+      title: "柱状图",
+      key: "BarGraph",
+      icon:"bar-graph",
       items: [
         {
           title: "简介",
@@ -19,8 +21,9 @@ export default {
       ]
     },
     {
-      title: "详细文档",
-      key: "detail",
+      title: "折线图",
+      key: "LineGraph",
+      icon:"line-graph",
       items: [
         {
           title: "柱状图",
@@ -28,5 +31,39 @@ export default {
         }
       ]
     },
+    {
+      title: "饼图",
+      key: "PieGraph",
+      icon:"pie-graph",
+      items: [
+        {
+          title: "柱状图",
+          key: "bar"
+        }
+      ]
+    },
+    {
+      title: "点图",
+      key: "PointGraph",
+      icon:"point-graph",
+      items: [
+        {
+          title: "柱状图",
+          key: "bar"
+        }
+      ]
+    },
+    {
+      title: "面积图",
+      key: "AreaGraph",
+      icon:"area-graph",
+      items: [
+        {
+          title: "柱状图",
+          key: "bar"
+        }
+      ]
+    },
+
   ]
 }
