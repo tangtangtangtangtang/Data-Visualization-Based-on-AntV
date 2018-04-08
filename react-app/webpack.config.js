@@ -84,12 +84,12 @@ module.exports = {
             template: "./index.html",
             filename: path.resolve(__dirname, "../server/views/index.ejs")
         }),
-        new webpack.DefinePlugin({
-            'process.env':{
-                NODE_ENV:JSON.stringify('development'),
-                BABEL_ENV:JSON.stringify("development")
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env':{
+        //         NODE_ENV:JSON.stringify('development'),
+        //         BABEL_ENV:JSON.stringify("development")
+        //     }
+        // }),
         // new webpack.optimize.UglifyJsPlugin()
     ]
 }

@@ -52,7 +52,7 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "webpack": "NODE_EVN=development BABEL_ENV=development webpack --config webpack.config.js --watch",
+    "webpack": "node scripts/webpack.js &&  webpack --config webpack.config.js --watch",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
