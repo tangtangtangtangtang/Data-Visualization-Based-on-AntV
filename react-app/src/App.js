@@ -1,14 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./App.less";
-import {BrowserRouter as Router, Route} from "react-router-dom";
-import {Layout} from "antd";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Layout } from "antd";
 import MyHeader from "./components/Header";
 import MySider from "./components/Sider";
 import AppContent from "./router/router";
 import { createStore } from 'redux'
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import reducer from "./reducer"
-const {Content, Footer} = Layout
+const { Content, Footer } = Layout
 
 class App extends Component {
 
@@ -17,7 +17,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Layout>
+          <Layout style={{ overflow: "hidden" }}>
             <Route path="/" component={MyHeader}></Route>
             <Layout>
               <Route path="/:channel" component={MySider}></Route>
@@ -25,7 +25,7 @@ class App extends Component {
                 <AppContent></AppContent>
               </Content>
             </Layout>
-            <Footer style={{height: "200px"}}></Footer>
+            <Footer></Footer>
           </Layout>
         </Router>
       </Provider>

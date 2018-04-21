@@ -1,10 +1,9 @@
 /**
  * Created by tang on 18/3/5.
  */
-import React, {Component} from "react";
-import {Route, Redirect} from "react-router-dom";
+import React, { Component } from "react";
+import { Route, Redirect } from "react-router-dom";
 import menuConfigs from "../config";
-import Graph from "../components/Allocation";
 
 export default class AppRoutes extends Component {
   constructor(props) {
@@ -13,7 +12,7 @@ export default class AppRoutes extends Component {
   }
 
   buildComponent(type) {
-    return Graph[type]
+    return ""
   }
 
   render() {
@@ -28,7 +27,7 @@ export default class AppRoutes extends Component {
         menu.items && menu.items.forEach(segment => {
           routes.push({
             path: `/${config.channel}/${menu.key}/${segment.key}`,
-            component: this.buildComponent(segment.key)
+            component: segment.component
           })
         })
 
@@ -41,13 +40,13 @@ export default class AppRoutes extends Component {
         {
           routes.map(route => {
             return <Route exact path={route.path}
-                          key={route.path}
-                          component={route.component}>
+              key={route.path}
+              component={route.component}>
             </Route>
           })
         }
         <Route exact path="/"
-               render={()=>(<Redirect to="/main"></Redirect>)}>
+          render={() => (<Redirect to="/main"></Redirect>)}>
         </Route>
       </div>
     )

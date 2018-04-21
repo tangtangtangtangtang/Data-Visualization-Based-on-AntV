@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { Modal, Icon, Card } from "antd";
 import "./AddGraph.component.less"
+import { Link } from "react-router-dom";
 
 export default class AddGraph extends Component {
   constructor(props) {
@@ -83,15 +84,20 @@ export default class AddGraph extends Component {
         >
           {
             GraphType.map(item =>
-              <Card className="my-card"
-                hoverable
-                style={{ width: 240, height: 207 }}
-                cover={<img style={{ width: "100%", height: "100%" }} alt={item.key} src={item.src} />}
-                key={item.key}
-                onClick={this.handleCardClick}
-              >
-                {item.content}
-              </Card>
+              <Link to={{
+                pathname: "/add/graph",
+                hash: item.key
+              }} key={item.key}>
+                <Card className="my-card"
+                  hoverable
+                  style={{ width: 240, height: 207 }}
+                  cover={<img style={{ width: "100%", height: "100%" }} alt={item.key} src={item.src} />}
+                  key={item.key}
+                  onClick={this.handleCardClick}
+                >
+                  {item.content}
+                </Card>
+              </Link>
             )
           }
         </Modal>
