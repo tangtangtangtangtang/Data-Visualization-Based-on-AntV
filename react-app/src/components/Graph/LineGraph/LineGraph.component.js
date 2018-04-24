@@ -2,70 +2,78 @@
  * Created by tang on 18/3/6.
  */
 import G2 from "@antv/g2";
+import DateSet from "@antv/data-set"
 import React, { Component } from "react";
 
 export default class LineGraph extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      chart: {},
-      data: [
-        { yea: '1991', value: 3 },
-        { yea: '1992', value: 4 },
-        { yea: '1993', value: 3.5 },
-        { yea: '1994', value: 5 },
-        { yea: '1995', value: 4.9 },
-        { yea: '1996', value: 6 },
-        { yea: '1997', value: 7 },
-        { yea: '1998', value: 9 },
-        { yea: '1999', value: 13 }
-      ]
-    }
-  }
-
   componentDidUpdate(prevProps, state) {
-    //JSONData不一致发生变化
-    if (JSON.stringify(prevProps.JSONData) !== JSON.stringify(this.props.JSONData)) {
-      this.initData()
+    //keys发生变化，需要重新绘制
+    if (prevProps.keys.length > 0 && JSON.stringify(prevProps.keys) !== JSON.stringify(this.props.keys)) {
+      if (this.props.chart.clear) {
+        this.props.chart.clear();
+      }
+      this.initData();
     }
-    // console.log("prev", prevProps, "state", state);
+    //JSONData不一致发生变化或者配置产生变化
+    if (JSON.stringify(prevProps.JSONData) !== JSON.stringify(this.props.JSONData) || JSON.stringify(prevProps.allocation) !== JSON.stringify(this.props.allocation)) {
+      this.initData();
+    }
   }
 
-  componentWillMount() { }
 
   componentDidMount() {
-    this.setState({
-      chart: new G2.Chart({
-        container: 'chartContainer',
-        forceFit: true
-      })
-    }, this.initData)
+    this.props.onUpdateChart(new G2.Chart({
+      container: 'chartContainer',
+      forceFit: true
+    }))
   }
 
   initData() {
     //JSON格式
-    const chart = this.state.chart
-    chart.source(this.props.JSONData);
-    let keys = Object.keys(this.props.JSONData[0] ? this.props.JSONData[0] : this.state.data[0])
-    chart.scale(keys[1], {
-      min: 0
-    });
-    chart.scale(keys[0], {
-      range: [0, 1]
-    });
-    chart.tooltip({
-      crosshairs: {
-        type: 'line'
+    const chart = this.props.chart
+    const ds = new DateSet()
+    const dv = ds.createView().source(this.props.JSONData)
+    //展开操作
+    if (this.props.allocation.kinds.indexOf("multiple") !== -1) {
+
+    }
+    chart.source(dv);
+    chart.clear();
+    let keys = this.props.keys
+    //scale操作
+    if (true) {
+      for (let i in this.props.allocation.scale) {
+        let allocationObject = this.props.allocation.scale[i]
+        chart.scale(i, {
+          min: allocationObject.min && allocationObject.min.value,
+          max: allocationObject.max && allocationObject.max.value,
+          type: allocationObject.type && allocationObject.type.value,
+        })
       }
-    });
-    chart.line().position(`${keys[0]}*${keys[1]}`);
-    chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle').style({
-      stroke: '#fff',
-      lineWidth: 1
-    });
+    }
+    //tooltip操作
+    if (true) {
+      chart.tooltip({
+        crosshairs: {
+          type: 'line'
+        }
+      });
+    }
+    if (this.props.allocation.kinds.indexOf("hv") !== -1) {
+      chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv");
+    } else {
+      chart.line().position(`${keys[0]}*${keys[1]}`).shape("");
+      chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle').style({
+        stroke: '#fff',
+        lineWidth: 1
+      });
+    }
     chart.render();
     //csv格式
   }
+
+  //mutiple
+
 
   render() {
     // const data = this.props.data

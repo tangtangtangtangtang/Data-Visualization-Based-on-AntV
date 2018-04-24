@@ -13,32 +13,32 @@ const cellValueChange = (result, action) => {
 }
 
 export const excelData = (state = { data: excelArray, key: [] }, action) => {
-    let result = JSON.parse(JSON.stringify(state.data));
-    let key = new Array();
+    let result = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case "cellValueChange":
-            cellValueChange(result, action)
+            cellValueChange(result.data, action)
             break;
         case "keyValueChange":
-            result[0].forEach(item => {
+            result.key = [];
+            result.data[0].forEach(item => {
                 if (item) {
-                    key.push(item)
+                    result.key.push(item)
                 }
             })
             break;
         default:
             break;
     }
-    return { data: result, key: key };
+    return result;
 }
 
 export const JSONData = (state = [], action) => {
     let result;
     switch (action.type) {
-        case "update":
+        case "updateJSONData":
             result = action.value
             break;
-        case "get":
+        case "getJSONData":
             result = state
             break;
         default:

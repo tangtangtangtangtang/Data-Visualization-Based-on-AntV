@@ -5,15 +5,13 @@ import { Layout } from "antd";
 import MyHeader from "./components/Header";
 import MySider from "./components/Sider";
 import AppContent from "./router/router";
-import { createStore } from 'redux'
 import { Provider } from "react-redux";
-import reducer from "./reducer"
+import store from './store';
 const { Content, Footer } = Layout
 
-class App extends Component {
+export default class App extends Component {
 
   render() {
-    let store = createStore(reducer)
     return (
       <Provider store={store}>
         <Router>
@@ -32,5 +30,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

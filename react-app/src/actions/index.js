@@ -6,7 +6,7 @@ export const changeCellValueAction = (id, value) => ({
     type: "cellValueChange",
     x: parseInt(id.split("-")[0], 10),
     y: parseInt(id.split("-")[1], 10),
-    value: value,
+    value,
 })
 
 export const changeKeyValueAction = {
@@ -14,10 +14,36 @@ export const changeKeyValueAction = {
 }
 
 export const changeJSONDataAction = (value) => ({
-    type: "update",
-    value: value
+    type: "updateJSONData",
+    value
 })
 
 export const getJSONDataAction = {
-    type: "get"
+    type: "getJSONData"
 }
+
+export const changeAllocationKinds = (key, value) => ({
+    type: "updateAllocationKinds",
+    key,
+    value
+})
+
+export const flashAllocationScale = {
+    type: "flashAllocationScale",
+}
+
+export const updateAllocationScale = (key, value) => ({
+    type: "updateAllocationScale",
+    value,
+    key,
+})
+
+export const updateChart = (value) => ({
+    type: "updateChart",
+    value,
+})
+
+
+export const expandOrNot = (expandOrNot) => ({
+    type: expandOrNot
+})

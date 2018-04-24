@@ -1,7 +1,7 @@
 import "react"
 import { connect } from "react-redux"
 import dataCell from './dataCell.component'
-import { changeCellValueAction, changeJSONDataAction, changeKeyValueAction } from '../../../actions/index'
+import { changeCellValueAction, changeJSONDataAction, changeKeyValueAction } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
