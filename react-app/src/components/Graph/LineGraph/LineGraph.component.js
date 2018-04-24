@@ -33,13 +33,23 @@ export default class LineGraph extends Component {
     const chart = this.props.chart
     const ds = new DateSet()
     const dv = ds.createView().source(this.props.JSONData)
+    let keys = this.props.keys
     //展开操作
-    if (this.props.allocation.kinds.indexOf("multiple") !== -1) {
-
+    if (keys.length > 2) {
+      let fields = [...keys];
+      let retains = [fields.shift()];
+      dv.transform({
+        type: "fold",
+        key: "key",
+        value: "value",
+        retains,
+        fields,
+      })
+      //重新定义keys
+      keys = [keys[0], "value"]
     }
     chart.source(dv);
     chart.clear();
-    let keys = this.props.keys
     //scale操作
     if (true) {
       for (let i in this.props.allocation.scale) {
@@ -60,13 +70,13 @@ export default class LineGraph extends Component {
       });
     }
     if (this.props.allocation.kinds.indexOf("hv") !== -1) {
-      chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv");
+      chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color("key");
     } else {
-      chart.line().position(`${keys[0]}*${keys[1]}`).shape("");
+      chart.line().position(`${keys[0]}*${keys[1]}`).shape("").color("key");
       chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle').style({
         stroke: '#fff',
         lineWidth: 1
-      });
+      }).color("key");
     }
     chart.render();
     //csv格式

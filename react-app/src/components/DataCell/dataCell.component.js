@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import { Input, Button, Icon } from "antd"
+import { Input, Button } from "antd"
 import "./dataCell.component.less"
-import RightSidePanel from "../RightSidePanel/RightSidePanel.component";
+import RightSidePanel from "../RightSidePanel/index";
 
 //单元格
 class WrapInput extends Component {
@@ -86,7 +86,7 @@ export default class Wrap extends Component {
             onKeyValueChange={this.props.onKeyValueChange}
             excelData={this.props.excelData} />
         return (
-            <RightSidePanel IconTop="30%" color="red" content={content} />
+            <RightSidePanel IconTop="30%" color="black" content={content} />
         )
     }
 }

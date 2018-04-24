@@ -3,7 +3,7 @@
  */
 // import AreaGraph from './AreaGraph/AreaGraphAllocation.comoponent'
 // import BoxGraph from './BoxGraph/BoxGraphAllocation.comoponent'
-// import BarGraph from './BarGraph/BarGraphAllocation.comoponent'
+import BarGraph from '../Graph/BarGraph/index'
 import LineGraph from '../Graph/LineGraph/index'
 import React, { Component } from "react";
 import { Row, Col } from "antd";
@@ -31,7 +31,7 @@ export default class graphContainer extends Component {
         const all = {
             // AreaGraph: <AreaGraph allocation={this.props.allocation} />,
             // BoxGraph: <BoxGraph allocation={this.props.allocation} />,
-            // BarGraph: <BarGraph allocation={this.props.allocation} />,
+            BarGraph: <BarGraph allocation={this.props.allocation} />,
             LineGraph: <LineGraph allocation={this.props.allocation} />,
         }
         const type = all[window.location.hash.replace("#", "")];
@@ -39,13 +39,6 @@ export default class graphContainer extends Component {
         return (
             <React.Fragment>
                 <Row>
-                    {/* <Col span={4}>
-                        <Select onChange={this.allocationChange} defaultValue={"base"} style={{ width: 140 }}>
-                            {kindsConfig.map(item => {
-                                return <Option id="kinds" value={item.key}>{item.value}</Option>
-                            })}
-                        </Select>
-                    </Col> */}
                     <Col span={4}>
                         <MyUpload />
                     </Col>

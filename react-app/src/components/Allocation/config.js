@@ -2,9 +2,12 @@
 const allocationConfig = {
     LineGraph: [
         { key: "base", value: "基础折线图" },
-        { key: "base mutiple", value: "多条折线图" },
         { key: "hv", value: "阶梯折线图" },
-        { key: "hv mutiple", value: "多条阶梯折线图" }
+    ],
+    BarGraph: [
+        { key: "base", value: "基础柱状图" },
+        { key: "fenzu", value: "分组柱状图" },
+        { key: "duidie", value: "堆叠柱状图" },
     ],
     Scale: [
         { key: "cat", value: "cat" },

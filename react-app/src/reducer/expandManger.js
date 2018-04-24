@@ -1,18 +1,12 @@
-const expand = (state = {
-    expand: false
-}, action) => {
-    let result = JSON.parse(JSON.stringify(state))
+const expand = (state = false, action) => {
     switch (action.type) {
         case "expand":
-            result.expand = true;
-            break;
+            return true;
         case "collapse":
-            result.expand = false;
-            break;
+            return false;
         default:
-            break;
+            return state;
     }
-    return result;
 }
 
 export default expand;

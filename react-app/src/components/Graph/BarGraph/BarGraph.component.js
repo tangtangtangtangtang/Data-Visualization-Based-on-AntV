@@ -2,57 +2,89 @@
  * Created by tang on 18/3/6.
  */
 import G2 from "@antv/g2";
-import React, {Component} from "react";
+import DateSet from "@antv/data-set"
+import React, { Component } from "react";
 
 export default class LineGraph extends Component {
-  constructor(props) {
-    super(props)
-    // this.state = {
-    //   data : [
-    //     { year: '1991', value: 3 },
-    //     { year: '1992', value: 4 },
-    //     { year: '1993', value: 3.5 },
-    //     { year: '1994', value: 5 },
-    //     { year: '1995', value: 4.9 },
-    //     { year: '1996', value: 6 },
-    //     { year: '1997', value: 7 },
-    //     { year: '1998', value: 9 },
-    //     { year: '1999', value: 13 }
-    //   ]
-    // }
+  componentDidUpdate(prevProps, state) {
+    //keys发生变化，需要重新绘制
+    if (prevProps.keys.length > 0 && JSON.stringify(prevProps.keys) !== JSON.stringify(this.props.keys)) {
+      if (this.props.chart.clear) {
+        this.props.chart.clear();
+      }
+      this.initData();
+    }
+    //JSONData不一致发生变化或者配置产生变化
+    if (JSON.stringify(prevProps.JSONData) !== JSON.stringify(this.props.JSONData) || JSON.stringify(prevProps.allocation) !== JSON.stringify(this.props.allocation)) {
+      this.initData();
+    }
   }
 
 
   componentDidMount() {
-    console.log("Did")
-    // const chart = new G2.Chart({
-    //   container: "chartContainer",
-    //   forceFit: true,
-    //   height: window.innerHeight
-    // })
-    // chart.source(this.data)
-    // chart.scale('value', {
-    //   min: 0
-    // });
-    // chart.scale('year', {
-    //   range: [ 0 , 1 ]
-    // });
-    // chart.tooltip({
-    //   crosshairs: {
-    //     type: 'line'
-    //   }
-    // });
-    // chart.line().position('year*value');
-    // chart.point().position('year*value').size(4).shape('circle').style({
-    //   stroke: '#fff',
-    //   lineWidth: 1
-    // });
-    // chart.render();
+    this.props.onUpdateChart(new G2.Chart({
+      container: 'chartContainer',
+      forceFit: true
+    }))
   }
+
+  initData() {
+    //JSON格式
+    const chart = this.props.chart
+    const ds = new DateSet()
+    const dv = ds.createView().source(this.props.JSONData)
+    let keys = this.props.keys
+    //展开操作
+    if (keys.length > 2) {
+      let fields = [...keys];
+      let retains = [fields.shift()];
+      dv.transform({
+        type: "fold",
+        key: "key",
+        value: "value",
+        retains,
+        fields,
+      })
+      //重新定义keys
+      keys = [keys[0], "value"]
+    }
+    chart.source(dv);
+    chart.clear();
+    //scale操作
+    if (true) {
+      for (let i in this.props.allocation.scale) {
+        let allocationObject = this.props.allocation.scale[i]
+        chart.scale(i, {
+          min: allocationObject.min && allocationObject.min.value,
+          max: allocationObject.max && allocationObject.max.value,
+          type: allocationObject.type && allocationObject.type.value,
+        })
+      }
+    }
+    //tooltip操作
+    if (true) {
+      chart.tooltip({
+        crosshairs: {
+          type: 'line'
+        }
+      });
+    }
+    if (this.props.allocation.kinds.indexOf("fenzu") !== -1) {
+      chart.interval().position(`${keys[0]}*${keys[1]}`).color("key").adjust({ type: "dodge" });
+    } else if (this.props.allocation.kinds.indexOf("duidie") !== -1) {
+      chart.intervalStack().position(`${keys[0]}*${keys[1]}`).color("key");
+    } else {
+      chart.interval().position(`${keys[0]}*${keys[1]}`).color("key");
+    }
+    chart.render();
+    //csv格式
+  }
+
+
 
   render() {
     // const data = this.props.data
-    let {Xaxis, Yaxis} = this.props
+    // let {Xaxis, Yaxis} = this.props
     return (
       <div id="chartContainer"></div>
     )

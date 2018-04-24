@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import RightSidePanel from '../../RightSidePanel/RightSidePanel.component'
+import RightSidePanel from '../../RightSidePanel/index'
 import allocationConfig from '../config'
 import { Select, InputNumber, Col, Row, Form, Button } from 'antd'
 //总Allocation 
@@ -63,7 +63,7 @@ export default class GeomAllocation extends Component {
             <Button onClick={this.drawPicture} style={{ position: "absolute", bottom: "1%", right: "1%" }}>绘制</Button>
         </div>
         return (
-            <RightSidePanel IconTop="20%" color="red" content={Allocation}></RightSidePanel>
+            <RightSidePanel moveDistance={420} IconTop="20%" color="black" content={Allocation}></RightSidePanel>
         )
     }
 }

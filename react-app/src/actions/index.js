@@ -44,6 +44,8 @@ export const updateChart = (value) => ({
 })
 
 
-export const expandOrNot = (expandOrNot) => ({
-    type: expandOrNot
-})
+export const expandOrNot = (expandOrNot) => {
+    return {
+        type: expandOrNot ? "expand" : "collapse"
+    }
+}
