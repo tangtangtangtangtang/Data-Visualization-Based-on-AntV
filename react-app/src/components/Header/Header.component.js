@@ -6,36 +6,23 @@ import { Link } from "react-router-dom";
 import { Button, Layout, Menu, Row, Col } from "antd";
 import "./Header.component.less";
 import AddGraph from "../AddGraph/AddGraph.component";
-
+import Login from '../Login/Login.component'
+import SignUp from '../SignUp/SignUp.component'
 const { Header } = Layout;
 
 export class MyHeader extends Component {
-
-  constructor(props) {
-    super(props);
-    this.handleAddClik = this.handleAddClik.bind(this)
-    this.state = {
-      add: false
-    }
-  }
-
-  handleAddClik() {
-    this.setState({
-      add: true
-    })
-  }
 
   render() {
 
     return (
       <Header className="MyHeader">
         <Row>
-          <Col span={6}>
+          <Col span={8}>
             <div className="logo">
               Data Visualization
             </div>
           </Col>
-          <Col span={16}>
+          <Col span={12}>
             <Menu
               mode="horizontal"
               theme="light"
@@ -49,8 +36,14 @@ export class MyHeader extends Component {
           </Col>
           <Col span={2}>
             <Button style={{ "border": "none" }} value="small" >
-              <AddGraph trigger={this.state.add} />
+              <AddGraph />
             </Button>
+          </Col>
+          <Col span={1}>
+            <SignUp />
+          </Col>
+          <Col span={1}>
+            <Login />
           </Col>
         </Row>
 

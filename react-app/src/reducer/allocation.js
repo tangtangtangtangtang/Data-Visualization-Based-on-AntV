@@ -18,8 +18,12 @@ const allocation = (state = {
         case "getAllocation":
             break;
         case "deleteAllocation":
-            for (let item of result) {
-                item = [];
+            for (let item in result) {
+                if (item !== "scale") {
+                    result[item] = []
+                } else if (item === "scale") {
+                    result[item] = {}
+                }
             }
             break;
         default:

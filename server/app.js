@@ -4,6 +4,8 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const koaBody = require('koa-body')
+const koaStatic = require('koa-static')
 
 // const users = require('./routes/users')
 
@@ -12,11 +14,14 @@ onerror(app)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text'],
+  onerror: (err, ctx) => {
+    ctx.throw('body parser error', 422);
+  }
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
 
 //views
 const views = require('koa-views')
@@ -32,9 +37,21 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-// routes
-// app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
+app.use(koaBody({
+  multipart: true,
+  encoding: "gzip",
+  formidable: {
+    uploadDir: __dirname + "/upload",
+    maxFieldsSize: 2 * 1024 * 1024,
+    onFileBegin: (name, file) => {
+      return false
+    }
+  },
+  onError: (error, context) => {
+    ctx.throw(error)
+  }
+}))
+
 const routes = require('./routes/index')
 app.use(routes)
 
@@ -43,11 +60,11 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
-app.listen("8007", function(err) {
+app.listen("8007", function (err) {
   if (err) {
-      console.log(err);
+    console.log(err);
   } else {
-      console.log(`listened 8007`);
+    console.log(`listened 8007`);
   }
 })
 

@@ -10,7 +10,6 @@ import { Row, Col } from "antd";
 //各种allocation
 import DataCellTable from "../DataCell/index";
 import GeomAllocation from './GeomAllocation/index'
-import MyUpload from '../MyUpload/MyUpload.component'
 // import allocationConfig from './config'
 // const Option = Select.Option
 
@@ -38,11 +37,6 @@ export default class graphContainer extends Component {
         // const kindsConfig = allocationConfig[window.location.hash.replace("#", "")]
         return (
             <React.Fragment>
-                <Row>
-                    <Col span={4}>
-                        <MyUpload />
-                    </Col>
-                </Row>
                 <Row>
                     <Col span={20}>
                         {type}

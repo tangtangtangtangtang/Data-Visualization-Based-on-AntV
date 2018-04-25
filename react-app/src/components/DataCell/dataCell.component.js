@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Input, Button } from "antd"
+import { Input, Button, Upload, Icon, message } from "antd"
 import "./dataCell.component.less"
 import RightSidePanel from "../RightSidePanel/index";
 
@@ -61,6 +61,22 @@ class EditableCell extends Component {
             return new Array(5).fill('')
         })
         let xName = ["X轴", "Y轴", "Y轴2", "Y轴3", "Y轴4", "Y轴5"]
+        const uploadProps = {
+            name: 'csvData',
+            // accept: "text/csv",
+            action: '/uploadData',
+            showUploadList: false,
+            onChange(info) {
+                if (info.file.status !== 'uploading') {
+                    console.log(info.file, info.fileList);
+                }
+                if (info.file.status === 'done') {
+                    message.success(`${info.file.name} file uploaded successfully`);
+                } else if (info.file.status === 'error') {
+                    message.error(`${info.file.name} file upload failed.`);
+                }
+            },
+        }
         return (
             <React.Fragment>
                 <span className="rowNum">0</span>
@@ -74,6 +90,11 @@ class EditableCell extends Component {
                         return <WrapRow columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} onKeyValueChange={this.props.onKeyValueChange} rowData={this.props.excelData[index]} />
                     })
                 }
+                <Upload style={{ position: "absolute", right: "18%", bottom: "1%" }} {...uploadProps}>
+                    <Button>
+                        <Icon type="upload" />上传数据文件
+                    </Button>
+                </Upload>
                 <Button style={{ position: "absolute", right: "1%", bottom: "1%" }} onClick={this.submitData}>确定</Button>
             </React.Fragment >
         )
