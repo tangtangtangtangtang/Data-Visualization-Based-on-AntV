@@ -8,7 +8,7 @@ const mapStateToProps = (state, props) => {
         JSONData: state.JSONData,
         keys: state.excelData.key,
         allocation: state.allocation,
-        chart: state.chart
+        chart: state.chart.chart
     }
 }
 

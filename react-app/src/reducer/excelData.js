@@ -1,3 +1,4 @@
+import deepClone from 'lodash.clonedeep'
 
 let excelArray = new Array(20).fill('');
 excelArray = excelArray.map(item => {
@@ -32,11 +33,15 @@ export const excelData = (state = { data: excelArray, key: [] }, action) => {
     return result;
 }
 
-export const JSONData = (state = [], action) => {
-    let result;
+export const JSONData = (state = {
+    data: [],
+    keys: []
+}, action) => {
+    let result = deepClone(state);
     switch (action.type) {
         case "updateJSONData":
-            result = action.value
+            result.data = action.value;
+            result.keys = Object.keys(action.value[0])
             break;
         case "getJSONData":
             result = state

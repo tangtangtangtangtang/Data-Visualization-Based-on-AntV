@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './SignUp.component.less'
 import { Modal, Form, Input, Button } from 'antd';
+import axios from 'axios'
 const FormItem = Form.Item;
 class RegistrationForm extends React.Component {
     state = {
@@ -11,7 +12,15 @@ class RegistrationForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                axios.post('/signUp', values, {
+                    responseEncoding: 'utf-8'
+                })
+                    .then((res) => {
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    })
             }
         });
     }
@@ -22,7 +31,7 @@ class RegistrationForm extends React.Component {
     compareToFirstPassword = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('两次密码不一致!');
         } else {
             callback();
         }
@@ -123,9 +132,8 @@ export default class Login extends Component {
 
     constructor(props) {
         super(props);
-        this.handleCancel = this.handleCancel.bind(this);
-        this.handleOk = this.handleOk.bind(this);
         this.showModal = this.showModal.bind(this);
+        this.handleCancel = this.handleCancel.bind(this)
         this.state = {
             visible: false
         }
@@ -144,13 +152,6 @@ export default class Login extends Component {
         })
     }
 
-
-    handleOk() {
-        this.setState({
-            visible: false
-        })
-    }
-
     render() {
 
         const WrappedRegistrationForm = Form.create()(RegistrationForm)
@@ -161,9 +162,8 @@ export default class Login extends Component {
                 <Modal
                     title="注册"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
                     footer={null}
+                    onCancel={this.handleCancel}
                 >
                     <WrappedRegistrationForm />
                 </Modal>

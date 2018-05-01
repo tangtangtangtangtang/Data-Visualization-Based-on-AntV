@@ -1,21 +1,25 @@
 import "react"
 import { connect } from "react-redux"
 import LineGraph from './LineGraph.component'
-import { getJSONDataAction, updateChart } from '../../../actions/index'
+import { CLEAR } from '../../../actions/actionType'
+import { getJSONDataAction, updateChart, graphSourceOrAllocationChanged } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
         JSONData: state.JSONData,
-        keys: state.excelData.key,
+        csvData: state.csvData,
         allocation: state.allocation,
-        chart: state.chart
+        chart: state.chart,
+        graphManger: state.graphManger,
+
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetJSONDataAction: () => dispatch(getJSONDataAction),
-        onUpdateChart: (value) => dispatch(updateChart(value))
+        onUpdateChart: (type, value) => dispatch(updateChart(type, value)),
+        onGraphManger: (type) => dispatch(graphSourceOrAllocationChanged(type))
     }
 }
 

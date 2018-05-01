@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button, Form, Input, Icon } from 'antd'
+import axios from 'axios'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -11,7 +12,13 @@ class LoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                axios.post('/logIn', values)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
             }
         });
     }
@@ -55,7 +62,6 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.handleCancel = this.handleCancel.bind(this);
-        this.handleOk = this.handleOk.bind(this);
         this.showModal = this.showModal.bind(this);
         this.state = {
             visible: false
@@ -76,12 +82,6 @@ export default class Login extends Component {
     }
 
 
-    handleOk() {
-        this.setState({
-            visible: false
-        })
-    }
-
     render() {
         const WrappedLoginForm = Form.create()(LoginForm)
 
@@ -91,7 +91,6 @@ export default class Login extends Component {
                 <Modal
                     title="登陆"
                     visible={this.state.visible}
-                    onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
                 >

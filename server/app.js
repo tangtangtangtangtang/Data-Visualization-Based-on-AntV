@@ -23,6 +23,7 @@ app.use(json())
 app.use(logger())
 app.use(koaStatic(__dirname + '/public'))
 
+
 //views
 const views = require('koa-views')
 app.use(views(__dirname + '/views', {
@@ -39,15 +40,7 @@ app.use(async (ctx, next) => {
 
 app.use(koaBody({
   multipart: true,
-  encoding: "gzip",
-  formidable: {
-    uploadDir: __dirname + "/upload",
-    maxFieldsSize: 2 * 1024 * 1024,
-    onFileBegin: (name, file) => {
-      return false
-    }
-  },
-  onError: (error, context) => {
+  onError: (error, ctx) => {
     ctx.throw(error)
   }
 }))

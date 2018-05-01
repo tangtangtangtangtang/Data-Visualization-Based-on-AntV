@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import { Input, Button, Upload, Icon, message } from "antd"
 import "./dataCell.component.less"
 import RightSidePanel from "../RightSidePanel/index";
+import { CSVFILECHANGED, JSONDATACHANGED } from '../../actions/actionType'
+import axios from 'axios'
 
 //单元格
 class WrapInput extends Component {
@@ -47,11 +49,34 @@ class EditableCell extends Component {
 
     constructor(props) {
         super(props);
-        this.submitData = this.submitData.bind(this);
+        this.createData = this.createData.bind(this)
+        this.submit = this.submit.bind(this)
     }
 
-    submitData() {
-        this.props.onKeyValueChange();
+    createData(key, value) {
+        let result = {};
+        result[key] = value;
+        return result;
+    }
+
+    submit() {
+        let JSONData = []
+        this.props.excelData.forEach((row, index) => {
+            let rowData = {}
+            if (index !== 0) {
+                row.forEach((item, index, ar) => {
+                    if (this.props.excelData[0][index] && row[index]) {
+                        rowData = Object.assign({}, rowData, this.createData(this.props.excelData[0][index], item))
+                    }
+                    if (typeof ar[index + 1] === "undefined" && JSON.stringify(rowData) !== "{}") {
+                        JSONData.push(rowData)
+                    }
+                })
+            }
+        })
+        this.props.onJSONDataChange(JSONData);
+        this.props.onGrpahManger(JSONDATACHANGED);
+        this.props.onUpdateKeys(Object.keys(JSONData[0]));
     }
 
     render() {
@@ -66,14 +91,20 @@ class EditableCell extends Component {
             // accept: "text/csv",
             action: '/uploadData',
             showUploadList: false,
-            onChange(info) {
-                if (info.file.status !== 'uploading') {
-                    console.log(info.file, info.fileList);
-                }
-                if (info.file.status === 'done') {
-                    message.success(`${info.file.name} file uploaded successfully`);
+            onChange: (info) => {
+                if (info.file.status === 'done' && info.file.response.flag) {
+                    message.success(`${info.file.name} 文件上传成功并保存`);
+                    // this.props.onUpdateCSVData(info.data);
+                    axios.get('/getFile?fileName=' + info.file.response.fileName)
+                        .then((res) => {
+                            this.props.onUpdateCSVData(res.data);
+                            this.props.onGrpahManger(CSVFILECHANGED);
+                            this.props.onUpdateKeys(res.data.split('\n')[0].split(','));
+
+                        })
+
                 } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} file upload failed.`);
+                    message.error(`${info.file.name} 文件上传错误`);
                 }
             },
         }
@@ -90,12 +121,12 @@ class EditableCell extends Component {
                         return <WrapRow columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} onKeyValueChange={this.props.onKeyValueChange} rowData={this.props.excelData[index]} />
                     })
                 }
-                <Upload style={{ position: "absolute", right: "18%", bottom: "1%" }} {...uploadProps}>
+                <Upload style={{ position: "absolute", right: "19%", bottom: "1%" }} {...uploadProps}>
                     <Button>
                         <Icon type="upload" />上传数据文件
                     </Button>
                 </Upload>
-                <Button style={{ position: "absolute", right: "1%", bottom: "1%" }} onClick={this.submitData}>确定</Button>
+                <Button style={{ position: "absolute", right: "1%", bottom: "1%" }} onClick={this.submit}>确定</Button>
             </React.Fragment >
         )
     }
@@ -104,8 +135,12 @@ class EditableCell extends Component {
 export default class Wrap extends Component {
     render() {
         let content = <EditableCell onCellValueChange={this.props.onCellValueChange}
-            onKeyValueChange={this.props.onKeyValueChange}
-            excelData={this.props.excelData} />
+            excelData={this.props.excelData}
+            chart={this.props.chart}
+            onUpdateCSVData={this.props.onUpdateCSVData}
+            onGrpahManger={this.props.onGrpahManger}
+            onUpdateKeys={this.props.onUpdateKeys}
+            onJSONDataChange={this.props.onJSONDataChange} />
         return (
             <RightSidePanel IconTop="30%" color="black" content={content} />
         )

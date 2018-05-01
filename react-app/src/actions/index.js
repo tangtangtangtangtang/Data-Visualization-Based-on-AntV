@@ -2,6 +2,8 @@
  * Created by tang on 18/3/8.
  */
 
+import { UPDATECSVDATA, UPDATEKEYS } from './actionType'
+
 export const changeCellValueAction = (id, value) => ({
     type: "cellValueChange",
     x: parseInt(id.split("-")[0], 10),
@@ -32,15 +34,28 @@ export const flashAllocationScale = {
     type: "flashAllocationScale",
 }
 
-export const updateAllocationScale = (key, value) => ({
+export const updateAllocationScale = (value) => ({
     type: "updateAllocationScale",
     value,
-    key,
 })
 
-export const updateChart = (value) => ({
-    type: "updateChart",
+export const updateChart = (type, value) => ({
+    type,
     value,
+})
+
+export const updateCSVData = (value) => ({
+    type: UPDATECSVDATA,
+    value
+})
+
+export const updateKeys = (value) => ({
+    type: UPDATEKEYS,
+    value
+})
+
+export const graphSourceOrAllocationChanged = (type) => ({
+    type
 })
 
 

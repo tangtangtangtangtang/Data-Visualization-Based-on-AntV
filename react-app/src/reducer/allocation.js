@@ -10,7 +10,7 @@ const allocation = (state = {
             result[action.key] = action.value.split(" ")
             break;
         case "updateAllocationScale":
-            result.scale[action.key] = Object.assign({}, result.scale[action.key], action.value);
+            result.scale = action.value;
             break;
         case "flashAllocationScale":
             result.scale = {};

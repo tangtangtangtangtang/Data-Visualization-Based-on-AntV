@@ -5,9 +5,23 @@ const router = new Router()
 
 let routes = [
   {
+    path: '/signUp',
+    controller: ctrl.signUp,
+    method: 'post'
+  },
+  {
+    path: '/logIn',
+    controller: ctrl.logIn,
+    method: 'post',
+  },
+  {
     path: "/uploadData",
     controller: svc.uploadManger,
     method: "post",
+  }, {
+    path: '/getFile',
+    controller: svc.sendFile,
+    method: 'get'
   }, {
     path: "/:parmas",
     redirect: "/"

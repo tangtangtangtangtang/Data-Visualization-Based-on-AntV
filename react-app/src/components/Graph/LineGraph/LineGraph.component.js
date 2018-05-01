@@ -4,81 +4,51 @@
 import G2 from "@antv/g2";
 import DateSet from "@antv/data-set"
 import React, { Component } from "react";
+import { UPDATECHART, UPDATEDS, UPDATEDV, KEYSFROMCVS, KEYSFROMPROPS, CLEAR } from '../../../actions/actionType'
+import industry from '../industry/industry'
+import chartType from '../industry/chartType'
 
 export default class LineGraph extends Component {
   componentDidUpdate(prevProps, state) {
-    //keys发生变化，需要重新绘制
-    if (prevProps.keys.length > 0 && JSON.stringify(prevProps.keys) !== JSON.stringify(this.props.keys)) {
-      if (this.props.chart.clear) {
-        this.props.chart.clear();
+    //发生变化时重置
+    if (JSON.stringify(prevProps.graphManger) !== JSON.stringify(this.props.graphManger)) {
+      //todo 需要对源发生变化和配置变化做出比较
+      if (this.props.graphManger.JSONData === true) {
+        //页面操作
+        this.initData(KEYSFROMPROPS);
+      } else if (this.props.graphManger.csv === true) {
+        //文件操作
+        this.initData(KEYSFROMCVS)
+      } else if (this.props.graphManger.allocation === true) {
+        //allocation发生变化
       }
-      this.initData();
-    }
-    //JSONData不一致发生变化或者配置产生变化
-    if (JSON.stringify(prevProps.JSONData) !== JSON.stringify(this.props.JSONData) || JSON.stringify(prevProps.allocation) !== JSON.stringify(this.props.allocation)) {
-      this.initData();
     }
   }
 
 
   componentDidMount() {
-    this.props.onUpdateChart(new G2.Chart({
+    let chart = new G2.Chart({
       container: 'chartContainer',
       forceFit: true
-    }))
+    });
+    let ds = new DateSet();
+    let dv = ds.createView("normal");
+    this.props.onUpdateChart(UPDATECHART, chart)
+    this.props.onUpdateChart(UPDATEDS, ds)
+    this.props.onUpdateChart(UPDATEDV, dv)
   }
 
-  initData() {
+  initData(type) {
     //JSON格式
-    const chart = this.props.chart
-    const ds = new DateSet()
-    const dv = ds.createView().source(this.props.JSONData)
-    let keys = this.props.keys
-    //展开操作
-    if (keys.length > 2) {
-      let fields = [...keys];
-      let retains = [fields.shift()];
-      dv.transform({
-        type: "fold",
-        key: "key",
-        value: "value",
-        retains,
-        fields,
-      })
-      //重新定义keys
-      keys = [keys[0], "value"]
-    }
-    chart.source(dv);
+    let chart = this.props.chart.chart, dv, keys
+    delete this.props.chart.ds.views.normal;
+    dv = industry.dv(type)
+    this.props.onUpdateChart(UPDATEDV, dv)
+    keys = industry.keys(type)
     chart.clear();
-    //scale操作
-    if (true) {
-      for (let i in this.props.allocation.scale) {
-        let allocationObject = this.props.allocation.scale[i]
-        chart.scale(i, {
-          min: allocationObject.min && allocationObject.min.value,
-          max: allocationObject.max && allocationObject.max.value,
-          type: allocationObject.type && allocationObject.type.value,
-        })
-      }
-    }
-    //tooltip操作
-    if (true) {
-      chart.tooltip({
-        crosshairs: {
-          type: 'line'
-        }
-      });
-    }
-    if (this.props.allocation.kinds.indexOf("hv") !== -1) {
-      chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color("key");
-    } else {
-      chart.line().position(`${keys[0]}*${keys[1]}`).shape("").color("key");
-      chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle').style({
-        stroke: '#fff',
-        lineWidth: 1
-      }).color("key");
-    }
+    chartType(window.location.hash.replace('#', ''), keys)
     chart.render();
+    this.props.onGraphManger(CLEAR)
     //csv格式
   }
 

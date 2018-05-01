@@ -1,12 +1,12 @@
 import "react"
 import { connect } from "react-redux"
 import GeomAllocation from './GeomAllocation.component'
-import { changeAllocationKinds, flashAllocationScale, changeJSONDataAction, updateAllocationScale } from '../../../actions/index'
+import { changeAllocationKinds, flashAllocationScale, changeJSONDataAction, updateAllocationScale, graphSourceOrAllocationChanged, changeKeyValueAction } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
         allocation: state.allocation,
-        keys: state.excelData.key,
+        keys: state.keys,
         excelData: state.excelData.data,
     }
 }
@@ -16,7 +16,10 @@ const mapDispatchToProps = (dispatch) => {
         onAllocationChangeKinds: (key, value) => dispatch(changeAllocationKinds(key, value)),
         onFlashAllocationScale: () => dispatch(flashAllocationScale),
         onJSONDataChange: (value) => dispatch(changeJSONDataAction(value)),
-        onUpdateAllocationScale: (key, value) => dispatch(updateAllocationScale(key, value)),
+        onUpdateAllocationScale: (value) => dispatch(updateAllocationScale(value)),
+        onGrpahManger: (type) => dispatch(graphSourceOrAllocationChanged(type)),
+        onKeyValueChange: () => dispatch(changeKeyValueAction),
+
     }
 }
 
