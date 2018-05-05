@@ -64,3 +64,10 @@ export const expandOrNot = (expandOrNot) => {
         type: expandOrNot ? "expand" : "collapse"
     }
 }
+
+
+//user相关
+export const userAction = (type, value) => ({
+    type,
+    value
+})

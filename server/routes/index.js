@@ -4,17 +4,20 @@ const svc = require('../service/index')
 const router = new Router()
 
 let routes = [
+
   {
+    path: '/saveGraph',
+    controller: ctrl.saveGraphByAccount,
+    method: 'post',
+  }, {
     path: '/signUp',
     controller: ctrl.signUp,
     method: 'post'
-  },
-  {
+  }, {
     path: '/logIn',
     controller: ctrl.logIn,
     method: 'post',
-  },
-  {
+  }, {
     path: "/uploadData",
     controller: svc.uploadManger,
     method: "post",

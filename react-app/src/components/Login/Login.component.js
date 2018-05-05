@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Modal, Button, Form, Input, Icon } from 'antd'
+import { message, Modal, Button, Form, Input, Icon } from 'antd'
 import axios from 'axios'
+import { CLEARUSERGRAPH, CLEARUSERINFO, UPDATEUSERGRAPH, UPDATEUSERINFO } from '../../actions/actionType'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -14,7 +15,16 @@ class LoginForm extends Component {
             if (!err) {
                 axios.post('/logIn', values)
                     .then((res) => {
-                        console.log(res)
+                        if (res.data.code) {
+                            message.success(res.data.message)
+                            this.props.onUpdateUserInfo(UPDATEUSERINFO, {
+                                'account': res.data.account,
+                                'nickname': res.data.nickname
+                            })
+                            this.props.onUpdateUserGraph(UPDATEUSERGRAPH, res.data.graph)
+                        } else {
+                            message.error(res.data.message)
+                        }
                     })
                     .catch((err) => {
                         console.error(err)
@@ -28,15 +38,15 @@ class LoginForm extends Component {
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
-                    {getFieldDecorator('userName', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
+                    {getFieldDecorator('account', {
+                        rules: [{ required: true, message: '请输入账号' }],
                     })(
                         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                     )}
                 </Form.Item>
                 <Form.Item>
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
+                        rules: [{ required: true, message: '请输入密码' }],
                     })(
                         <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                     )}
@@ -63,11 +73,26 @@ export default class Login extends Component {
         super(props);
         this.handleCancel = this.handleCancel.bind(this);
         this.showModal = this.showModal.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
         this.state = {
-            visible: false
+            visible: false,
+            isLogIn: false
         }
     }
 
+    componentWillReceiveProps() {
+        if (JSON.stringify(this.props.userData.info) !== '{}') {
+            this.setState({
+                isLogIn: true
+            })
+        }
+        return true
+    }
+
+    handleLogOut() {
+        this.props.onUpdateUserInfo(CLEARUSERGRAPH)
+        this.props.onUpdateUserInfo(CLEARUSERINFO)
+    }
 
     showModal() {
         this.setState({
@@ -87,14 +112,16 @@ export default class Login extends Component {
 
         return (
             <React.Fragment>
-                <Button style={{ border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.showModal}>登陆</Button>
+                {
+                    this.state.isLogIn ? <Button style={{ border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.handleLogOut}>注销</Button> : <Button style={{ border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.showModal}>登陆</Button>
+                }
                 <Modal
                     title="登陆"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={null}
                 >
-                    <WrappedLoginForm />
+                    <WrappedLoginForm onUpdateUserInfo={this.props.onUpdateUserInfo} />
                 </Modal>
             </React.Fragment>
         )

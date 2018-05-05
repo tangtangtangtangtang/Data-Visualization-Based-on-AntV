@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { Button, Layout, Menu, Row, Col } from "antd";
 import "./Header.component.less";
 import AddGraph from "../AddGraph/AddGraph.component";
-import Login from '../Login/Login.component'
-import SignUp from '../SignUp/SignUp.component'
+import Login from '../Login/index'
+import SignUp from '../SignUp/index'
 const { Header } = Layout;
 
 export class MyHeader extends Component {

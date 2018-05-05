@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './SignUp.component.less'
-import { Modal, Form, Input, Button } from 'antd';
+import { message, Modal, Form, Input, Button } from 'antd';
 import axios from 'axios'
 const FormItem = Form.Item;
 class RegistrationForm extends React.Component {
@@ -16,7 +16,12 @@ class RegistrationForm extends React.Component {
                     responseEncoding: 'utf-8'
                 })
                     .then((res) => {
-                        console.log(res)
+                        if (res.data.code) {
+                            message.success(res.data.message)
+                            this.props.handleCancel();
+                        } else {
+                            message.error(res.data.message)
+                        }
                     })
                     .catch((err) => {
                         console.error(err);
@@ -77,13 +82,29 @@ class RegistrationForm extends React.Component {
                     {...formItemLayout}
                     label="账号"
                 >
-                    {getFieldDecorator('email', {
+                    {getFieldDecorator('account', {
                         rules: [{
                             max: 10, message: '最长不多于10位',
                         }, {
                             min: 6, message: '最短不少于6位',
                         }, {
                             required: true, message: '请输入账号',
+                        }],
+                    })(
+                        <Input />
+                    )}
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="昵称"
+                >
+                    {getFieldDecorator('nickname', {
+                        rules: [{
+                            max: 20, message: '昵称过长',
+                        }, {
+                            min: 3, message: '昵称过短',
+                        }, {
+                            required: true, message: '请输入昵称',
                         }],
                     })(
                         <Input />
@@ -135,10 +156,19 @@ export default class Login extends Component {
         this.showModal = this.showModal.bind(this);
         this.handleCancel = this.handleCancel.bind(this)
         this.state = {
-            visible: false
+            visible: false,
+            isLogIn: false,
         }
     }
 
+    componentWillReceiveProps() {
+        if (JSON.stringify(this.props.userData.info) !== '{}') {
+            this.setState({
+                isLogIn: true
+            })
+        }
+        return true
+    }
 
     showModal() {
         this.setState({
@@ -158,14 +188,15 @@ export default class Login extends Component {
 
         return (
             <React.Fragment>
-                <Button style={{ border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.showModal}>注册</Button>
+                <Button style={this.state.isLogIn ? { display: 'none' } : { border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.showModal}>注册</Button>
+                <Button style={this.state.isLogIn ? { border: "none", padding: 0, width: "100%", textAlign: "center" } : { display: 'none' }}>{this.props.userData && this.props.userData.nickname}</Button>
                 <Modal
                     title="注册"
                     visible={this.state.visible}
                     footer={null}
                     onCancel={this.handleCancel}
                 >
-                    <WrappedRegistrationForm />
+                    <WrappedRegistrationForm handleCancel={this.handleCancel} />
                 </Modal>
             </React.Fragment>
         )

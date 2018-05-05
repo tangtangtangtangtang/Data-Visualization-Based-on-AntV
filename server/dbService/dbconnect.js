@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
-const db = mongoose.createConnection("mongodb://localhost/datav");
-db.on('error', function callback() {
+mongoose.connect("mongodb://localhost/datav");
+const db = mongoose.connection
+const userModel = require('./user');
+const graphModel = require('./graph');
+db.on('error', function () {
     console.log("Connection error");
 });
 
-db.once('open', function callback() {
-    console.log("Mongo working!");
+db.once('open', function () {
+    console.log('opening')
 });
-
-const userModel = require('./user');
-const graphModel = require('./graph');
 
 module.exports = {
     userModel,
