@@ -1,7 +1,6 @@
 import "react"
 import { connect } from "react-redux"
 import LineGraph from './LineGraph.component'
-import { CLEAR } from '../../../actions/actionType'
 import { getJSONDataAction, updateChart, graphSourceOrAllocationChanged } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {

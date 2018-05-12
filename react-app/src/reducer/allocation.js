@@ -15,8 +15,6 @@ const allocation = (state = {
         case "flashAllocationScale":
             result.scale = {};
             break;
-        case "getAllocation":
-            break;
         case "deleteAllocation":
             for (let item in result) {
                 if (item !== "scale") {

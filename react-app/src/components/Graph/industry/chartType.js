@@ -10,12 +10,6 @@ let common = () => {
     if (JSON.stringify(states.allocation.scale) !== '{}') {
         industry.scale()
     }
-    // //tooltip操作
-    // chart.tooltip({
-    //     crosshairs: {
-    //         type: 'line'
-    //     }
-    // });
 }
 
 let chartType = (type, keys) => {

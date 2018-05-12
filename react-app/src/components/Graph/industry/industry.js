@@ -3,31 +3,6 @@ import deepClone from 'lodash.clonedeep'
 import { KEYSFROMCVS } from '../../../actions/actionType'
 //图像attr
 export default {
-    geom: (operationType, operationMethod, methodValue) => {
-        let chart = store.getState().chart.chart
-        let type = {};
-        switch (operationType) {
-            case "point":
-                type = chart.point();
-                break;
-            case "line":
-                type = chart.line();
-                break;
-            case "area":
-                type = chart.area();
-                break;
-            case "path":
-                type = chart.path();
-                break;
-            case "interval":
-                type = chart.interval();
-                break;
-            default:
-                return;
-        }
-        type[operationMethod](methodValue);
-        return;
-    },
     keys: (type) => {
         let result;
         switch (type) {

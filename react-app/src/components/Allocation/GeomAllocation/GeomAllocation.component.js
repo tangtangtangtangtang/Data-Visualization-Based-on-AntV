@@ -31,24 +31,26 @@ export default class GeomAllocation extends Component {
     }
 
     componentWillReceiveProps(receiveProps) {
-        this.setState({
-            form: this.props.keys && this.props.keys.map(dataKey => {
-                let WrappedRowForm = Form.create({
-                    onValuesChange: (props, changedFields, allFields) => {
-                        props.onChange(changedFields, allFields)
-                    },
-                    mapPropsToFields: (props) => {
-                        let dataObject = props.allocation.scale[dataKey];
-                        return {
-                            "max": Form.createFormField({ value: dataObject && dataObject.max }),
-                            "min": Form.createFormField({ value: dataObject && dataObject.min }),
-                            "type": Form.createFormField({ value: dataObject && dataObject.type })
+        if (receiveProps.keys !== this.props.keys) {
+            this.setState({
+                form: receiveProps.keys && receiveProps.keys.map(dataKey => {
+                    let WrappedRowForm = Form.create({
+                        onValuesChange: (props, changedFields, allFields) => {
+                            props.onChange(changedFields, allFields)
+                        },
+                        mapPropsToFields: (props) => {
+                            let dataObject = props.allocation.scale[dataKey];
+                            return {
+                                "max": Form.createFormField({ value: dataObject && dataObject.max }),
+                                "min": Form.createFormField({ value: dataObject && dataObject.min }),
+                                "type": Form.createFormField({ value: dataObject && dataObject.type })
+                            }
                         }
-                    }
-                })(RowForm)
-                return <WrappedRowForm allocation={receiveProps.allocation} onChange={this.formChange} dataKey={dataKey} />
-            }),
-        })
+                    })(RowForm)
+                    return <WrappedRowForm allocation={this.props.allocation} onChange={this.formChange} dataKey={dataKey} />
+                }),
+            })
+        }
         return true
     }
 
@@ -70,22 +72,6 @@ export default class GeomAllocation extends Component {
     }
 
     drawPicture() {
-        // let JSONData = []
-        // this.props.excelData.forEach((row, index) => {
-        //     let rowData = {}
-        //     if (index !== 0) {
-        //         row.forEach((item, index, ar) => {
-        //             if (this.props.excelData[0][index] && row[index]) {
-        //                 rowData = Object.assign({}, rowData, this.createData(this.props.excelData[0][index], item))
-        //             }
-        //             if (typeof ar[index + 1] === "undefined" && JSON.stringify(rowData) !== "{}") {
-        //                 JSONData.push(rowData)
-        //             }
-        //         })
-        //     }
-        // })
-        // this.props.onJSONDataChange(JSONData);
-        // this.props.onGrpahManger(JSONDATACHANGED);
         this.props.onUpdateAllocationScale(this.state.allocation)
         this.props.onGraphManger(ALLOCATIONCHANGED);
     }
@@ -133,10 +119,17 @@ class RowForm extends Component {
         }
     }
 
-    // componentWillReceiveProps(props) {
-    //     if (!this.state.type) {
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     if (JSON.stringify(nextState) !== '{}') {
+    //         return true
+    //     }
+    // }
+
+    // componentWillReceiveProps(receiveProps) {
+    //     if (JSON.stringify(receiveProps.allocation.scale) !== '{}') {
     //         this.setState({
-    //             type: props.allocation.scale[props.dataKey]
+    //             type: receiveProps.allocation.scale[this.props.dataKey].type
     //         })
     //     }
     //     return true
@@ -256,48 +249,3 @@ class RowForm extends Component {
         )
     }
 }
-
-
-//废弃Scale Allocation Form
-// class AllocationScale extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.submitScale = this.submitScale.bind(this);
-//         this.formChange = this.formChange.bind(this);
-//         this.state = {
-//             onSubmit: 0,
-//         }
-//     }
-
-//     submitScale() {
-//         this.setState({
-//             onSubmit: this.state.onSubmit + 1
-//         })
-//     }
-
-//     formChange(changeFields, allFields) {
-//         let key = allFields.key.value;
-//         this.props.onUpdateAllocationScale(key, changeFields)
-//     }
-
-//     render() {
-//         return (
-//             <React.Fragment>
-//                 {
-//                     this.props.keys && this.props.keys.map(dataKey => {
-//                         let WrappedRowForm = Form.create(
-//                             // {
-//                             //     onValuesChange(props, changedFields, allFields) {
-//                             //         props.onChange(changedFields, allFields)
-//                             //         return changedFields
-//                             //     }
-//                             // }
-//                         )(RowForm)
-//                         return <WrappedRowForm onChange={this.formChange} dataKey={dataKey} onUpdateAllocationScale={this.props.onUpdateAllocationScale} />
-//                     })
-//                 }
-//             </React.Fragment>
-
-//         )
-//     }
-// }

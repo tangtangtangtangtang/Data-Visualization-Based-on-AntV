@@ -41,7 +41,10 @@ function getServedPath(appPackageJson) {
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
+  //edit By tang
   appBuild: resolveApp('../server/public'),
+  appIndexEJS: resolveApp('../server/views/index.ejs'),
+
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),

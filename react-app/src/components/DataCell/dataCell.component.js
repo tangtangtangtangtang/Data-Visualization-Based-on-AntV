@@ -88,7 +88,7 @@ class EditableCell extends Component {
         let xName = ["X轴", "Y轴", "Y轴2", "Y轴3", "Y轴4", "Y轴5"]
         const uploadProps = {
             name: 'csvData',
-            // accept: "text/csv",
+            accept: "text/csv",
             action: '/uploadData',
             showUploadList: false,
             onChange: (info) => {

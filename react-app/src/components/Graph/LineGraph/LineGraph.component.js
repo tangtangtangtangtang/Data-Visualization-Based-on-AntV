@@ -11,7 +11,7 @@ import chartType from '../industry/chartType'
 export default class LineGraph extends Component {
   componentDidUpdate(prevProps, state) {
     //发生变化时重置
-    if (JSON.stringify(prevProps.graphManger) !== JSON.stringify(this.props.graphManger)) {
+    if (this.props.graphManger.allocation) {
       //todo 需要对源发生变化和配置变化做出比较
       if (this.props.graphManger.JSONData === true) {
         //页面操作
@@ -48,7 +48,7 @@ export default class LineGraph extends Component {
     chart.clear();
     chartType(window.location.hash.replace('#', ''), keys)
     chart.render();
-    this.props.onGraphManger(CLEAR)
+    // this.props.onGraphManger(CLEAR)
     //csv格式
   }
 
