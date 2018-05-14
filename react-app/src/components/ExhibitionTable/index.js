@@ -4,7 +4,7 @@ import ExhibitionTable from "./ExhibitionTable.component"
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.userData
+        userData: state.userData
     }
 }
 
@@ -13,15 +13,15 @@ const mapDispatchToProps = (dispatch) => {
         onCardClick: (id) => {
 
         },
-        onCardEdit: (id) =>{
+        onCardEdit: (id) => {
 
         }
     }
 }
 
-const Exihibition = connect(
-    mapDispatchToProps,
-    mapStateToProps
+const ExihibitionWithRedux = connect(
+    mapStateToProps,
+    mapDispatchToProps
 )(ExhibitionTable)
 
-export default Exihibition
+export default ExihibitionWithRedux

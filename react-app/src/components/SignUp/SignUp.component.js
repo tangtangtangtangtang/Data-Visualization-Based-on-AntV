@@ -166,6 +166,10 @@ export default class Login extends Component {
             this.setState({
                 isLogIn: true
             })
+        } else {
+            this.setState({
+                isLogIn: false
+            })
         }
         return true
     }
@@ -189,7 +193,7 @@ export default class Login extends Component {
         return (
             <React.Fragment>
                 <Button style={this.state.isLogIn ? { display: 'none' } : { border: "none", padding: 0, width: "100%", textAlign: "center" }} onClick={this.showModal}>注册</Button>
-                <Button style={this.state.isLogIn ? { border: "none", padding: 0, width: "100%", textAlign: "center" } : { display: 'none' }}>{this.props.userData && this.props.userData.nickname}</Button>
+                <span style={this.state.isLogIn ? { width: "100%", textAlign: "center", overflow: 'hidden', display: 'inline-block', margin: '0 auto', height: '64px' } : { display: 'none' }}>{JSON.stringify(this.props.userData.info) !== '{}' && this.props.userData.info.nickname}</span>
                 <Modal
                     title="注册"
                     visible={this.state.visible}

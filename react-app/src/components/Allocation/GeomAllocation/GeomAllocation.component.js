@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import RightSidePanel from '../../RightSidePanel/index'
 import allocationConfig from '../config'
-import { Select, InputNumber, Col, Row, Form, Button, Input, Slider } from 'antd'
-import { ALLOCATIONCHANGED } from '../../../actions/actionType'
+import { message, Select, InputNumber, Col, Row, Form, Button, Input, Slider } from 'antd'
+import { ALLOCATIONCHANGED, GRAPHNAMECHANGED, GRAPHIDCHANGED } from '../../../actions/actionType'
 import deepClone from 'lodash.clonedeep'
+import Axios from 'axios';
+import store from '../../../store'
 //总Allocation 
 export default class GeomAllocation extends Component {
     constructor(props) {
@@ -12,6 +14,8 @@ export default class GeomAllocation extends Component {
         this.drawPicture = this.drawPicture.bind(this)
         this.createData = this.createData.bind(this)
         this.formChange = this.formChange.bind(this)
+        this.savePicture = this.savePicture.bind(this)
+        this.onGraphNameChange = this.onGraphNameChange.bind(this)
         this.state = {
             form: {},
             allocation: {}
@@ -71,9 +75,38 @@ export default class GeomAllocation extends Component {
         return result;
     }
 
+    onGraphNameChange(e) {
+        this.props.onGraphManger(GRAPHNAMECHANGED, e.target.value)
+    }
+
     drawPicture() {
         this.props.onUpdateAllocationScale(this.state.allocation)
         this.props.onGraphManger(ALLOCATIONCHANGED);
+    }
+
+    savePicture() {
+        let states = store.getState()
+        if (JSON.stringify(states.userData.info) === '{}') {
+            message.error('还未登录，不能保存!');
+            return
+        }
+        Axios.post('/saveGraph', {
+            allocation: states.allocation,
+            fileName: states.graphManger.csv ? states.csvData.fileName : '',
+            fileType: states.graphManger.csv ? 'csv' : states.graphManger.JSONData ? 'json' : '',
+            name: states.graphManger.name,
+            owner: states.userData.info.account,
+            graph: window.location.hash.replace('#', ''),
+            data: states.graphManger.JSONData ? states.JSONData.data : '',
+            _id: states.graphManger._id
+        }).then((res) => {
+            if (res.data.code) {
+                message.info(res.data.message);
+                this.props.onGraphManger(GRAPHIDCHANGED, res.data._id)
+            } else {
+                message.error(res.data.message)
+            }
+        })
     }
 
     render() {
@@ -102,6 +135,8 @@ export default class GeomAllocation extends Component {
                     </Select>
                 </Col>
             </Row>
+            <Input addonBefore={'名字：'} value={store.getState().graphManger.name} onChange={this.onGraphNameChange} style={{ position: "absolute", width: '40%', bottom: "1%", right: "38%" }}></Input>
+            <Button onClick={this.savePicture} style={{ position: "absolute", bottom: "1%", right: "19%" }}>保存</Button>
             <Button onClick={this.drawPicture} style={{ position: "absolute", bottom: "1%", right: "1%" }}>绘制</Button>
         </div>
         return (
@@ -118,22 +153,6 @@ class RowForm extends Component {
             type: "",
         }
     }
-
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     if (JSON.stringify(nextState) !== '{}') {
-    //         return true
-    //     }
-    // }
-
-    // componentWillReceiveProps(receiveProps) {
-    //     if (JSON.stringify(receiveProps.allocation.scale) !== '{}') {
-    //         this.setState({
-    //             type: receiveProps.allocation.scale[this.props.dataKey].type
-    //         })
-    //     }
-    //     return true
-    // }
 
     typeChange(value) {
         this.setState({

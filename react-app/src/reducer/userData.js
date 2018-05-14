@@ -1,6 +1,6 @@
-import { UPDATEUSERGRAPH, UPDATEUSERINFO, CLEARUSERGRAPH, CLEARUSERINFO } from '../actions/actionType'
+import { UPDATEUSERGRAPH, UPDATEUSERINFO, CLEARUSERINFO } from '../actions/actionType'
 import deepClone from 'lodash.clonedeep'
-const usrData = (state = {
+const userData = (state = {
     info: {},
     graphData: []
 }, action) => {
@@ -12,11 +12,9 @@ const usrData = (state = {
         case UPDATEUSERINFO:
             result.info = action.value;
             break;
-        case CLEARUSERGRAPH:
-            result.graphData = [];
-            break;
         case CLEARUSERINFO:
             result.info = {};
+            result.graphData = [];
             break;
         default:
             return result;
@@ -24,4 +22,4 @@ const usrData = (state = {
     return result
 }
 
-export default usrData
+export default userData

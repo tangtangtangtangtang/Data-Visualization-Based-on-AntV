@@ -17,9 +17,8 @@ const mapDispatchToProps = (dispatch) => {
         onFlashAllocationScale: () => dispatch(flashAllocationScale),
         onJSONDataChange: (value) => dispatch(changeJSONDataAction(value)),
         onUpdateAllocationScale: (value) => dispatch(updateAllocationScale(value)),
-        onGraphManger: (type) => dispatch(graphSourceOrAllocationChanged(type)),
+        onGraphManger: (type, value) => dispatch(graphSourceOrAllocationChanged(type, value)),
         onKeyValueChange: () => dispatch(changeKeyValueAction),
-
     }
 }
 

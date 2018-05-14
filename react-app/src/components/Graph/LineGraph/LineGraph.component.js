@@ -36,6 +36,18 @@ export default class LineGraph extends Component {
     this.props.onUpdateChart(UPDATECHART, chart)
     this.props.onUpdateChart(UPDATEDS, ds)
     this.props.onUpdateChart(UPDATEDV, dv)
+    if (this.props.graphManger.allocation) {
+      //todo 需要对源发生变化和配置变化做出比较
+      if (this.props.graphManger.JSONData === true) {
+        //页面操作
+        this.initData(KEYSFROMPROPS);
+      } else if (this.props.graphManger.csv === true) {
+        //文件操作
+        this.initData(KEYSFROMCVS)
+      } else if (this.props.graphManger.allocation === true) {
+        //allocation发生变化
+      }
+    }
   }
 
   initData(type) {

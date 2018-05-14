@@ -44,9 +44,10 @@ export const updateChart = (type, value) => ({
     value,
 })
 
-export const updateCSVData = (value) => ({
+export const updateCSVData = (value, fileName) => ({
     type: UPDATECSVDATA,
-    value
+    value,
+    fileName
 })
 
 export const updateKeys = (value) => ({
@@ -54,8 +55,9 @@ export const updateKeys = (value) => ({
     value
 })
 
-export const graphSourceOrAllocationChanged = (type) => ({
-    type
+export const graphSourceOrAllocationChanged = (type, value) => ({
+    type,
+    value
 })
 
 

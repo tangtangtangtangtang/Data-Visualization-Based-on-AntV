@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { message, Modal, Button, Form, Input, Icon } from 'antd'
 import axios from 'axios'
-import { CLEARUSERGRAPH, CLEARUSERINFO, UPDATEUSERGRAPH, UPDATEUSERINFO } from '../../actions/actionType'
+import { CLEARUSERINFO, UPDATEUSERGRAPH, UPDATEUSERINFO } from '../../actions/actionType'
 
 class LoginForm extends Component {
     constructor(props) {
@@ -21,7 +21,8 @@ class LoginForm extends Component {
                                 'account': res.data.account,
                                 'nickname': res.data.nickname
                             })
-                            this.props.onUpdateUserGraph(UPDATEUSERGRAPH, res.data.graph)
+                            this.props.onUpdateUserInfo(UPDATEUSERGRAPH, res.data.graph)
+                            this.props.handleCancel();
                         } else {
                             message.error(res.data.message)
                         }
@@ -85,12 +86,15 @@ export default class Login extends Component {
             this.setState({
                 isLogIn: true
             })
+        } else {
+            this.setState({
+                isLogIn: false
+            })
         }
         return true
     }
 
     handleLogOut() {
-        this.props.onUpdateUserInfo(CLEARUSERGRAPH)
         this.props.onUpdateUserInfo(CLEARUSERINFO)
     }
 
@@ -121,7 +125,7 @@ export default class Login extends Component {
                     onCancel={this.handleCancel}
                     footer={null}
                 >
-                    <WrappedLoginForm onUpdateUserInfo={this.props.onUpdateUserInfo} />
+                    <WrappedLoginForm handleCancel={this.handleCancel} onUpdateUserInfo={this.props.onUpdateUserInfo} />
                 </Modal>
             </React.Fragment>
         )

@@ -9,7 +9,46 @@ module.exports = {
         await ctx.render("index.ejs")
     },
     saveGraphByAccount: async (ctx) => {
-        await db.graphModel.create(ctx.request.body)
+        let data = ctx.request.body
+        if (data.fileType === 'csv') {
+            delete data.data
+        } else {
+            let fileName = data.owner + Date.now()
+            let filePath = __dirname + `/../myCsvUploadFile/${fileName}.JSON`
+            data.fileName = fileName;
+        }
+        if (data._id) {
+            await db.graphModel.findOneAndUpdate({ _id: data._id }, data)
+                .then((graph) => {
+                    ctx.body = {
+                        code: true,
+                        message: '保存成功',
+                        _id: graph.id
+                    }
+                })
+                .catch(err => {
+                    ctx.body = {
+                        code: false,
+                        message: err.message
+                    }
+                })
+        } else {
+            delete data._id
+            await db.graphModel.create(data)
+                .then((graph) => {
+                    ctx.body = {
+                        code: true,
+                        message: '保存成功',
+                        _id: graph.id
+                    }
+                })
+                .catch(err => {
+                    ctx.body = {
+                        code: false,
+                        message: err
+                    }
+                })
+        }
     },
     signUp: async (ctx) => {
         let user = {
@@ -18,7 +57,7 @@ module.exports = {
             'nickname': ctx.request.body.nickname
         }
         let data = await db.userModel.find({ 'account': user.account });
-        if (data) {
+        if (data.length > 0) {
             ctx.body = {
                 code: false,
                 message: '账号已经被注册'
@@ -36,13 +75,13 @@ module.exports = {
     },
     logIn: async (ctx) => {
         let data = await db.userModel.find({ 'account': ctx.request.body.account })
-        if (data && md5(ctx.request.body.password) === data[0].password) {
-            let graph = await db.graphModel.find({ 'account': ctx.request.body.account })
+        if (data.length > 0 && md5(ctx.request.body.password) === data[0].password) {
+            let graph = await db.graphModel.find({ 'owner': ctx.request.body.account })
             ctx.body = {
                 code: true,
                 message: '登陆成功',
-                account: data.account,
-                nickname: data.nickname,
+                account: data[0].account,
+                nickname: data[0].nickname,
                 graph: graph
             }
         } else {

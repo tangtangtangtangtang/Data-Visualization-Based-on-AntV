@@ -25,10 +25,5 @@ export default {
         }
       ]
     },
-    // {
-    //   title: "图形绘制",
-    //   key: "graph",
-    //   component: Allocation,
-    // }
   ]
 }

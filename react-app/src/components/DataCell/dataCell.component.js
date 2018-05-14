@@ -94,10 +94,9 @@ class EditableCell extends Component {
             onChange: (info) => {
                 if (info.file.status === 'done' && info.file.response.flag) {
                     message.success(`${info.file.name} 文件上传成功并保存`);
-                    // this.props.onUpdateCSVData(info.data);
                     axios.get('/getFile?fileName=' + info.file.response.fileName)
                         .then((res) => {
-                            this.props.onUpdateCSVData(res.data);
+                            this.props.onUpdateCSVData(res.data, info.file.response.fileName);
                             this.props.onGrpahManger(CSVFILECHANGED);
                             this.props.onUpdateKeys(res.data.split('\n')[0].split(','));
 

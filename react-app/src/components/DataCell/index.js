@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onCellValueChange: (id, value) => dispatch(changeCellValueAction(id, value)),
         onJSONDataChange: (value) => dispatch(changeJSONDataAction(value)),
-        onUpdateCSVData: (value) => dispatch(updateCSVData(value)),
+        onUpdateCSVData: (value, fileName) => dispatch(updateCSVData(value, fileName)),
         onGrpahManger: (type) => dispatch(graphSourceOrAllocationChanged(type)),
         onUpdateKeys: (value) => dispatch(updateKeys(value))
     }
