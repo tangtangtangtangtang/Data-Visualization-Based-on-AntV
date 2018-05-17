@@ -10,7 +10,12 @@ export const GRAPHNAMECHANGED = 'graphNameChanged'
 export const GRAPHIDCHANGED = 'graphIdChanged'
 export const CLEAR = 'clear'
 
+//data相关
 export const UPDATECSVDATA = 'updateCSVData'
+export const CLEARCSVDATA = 'clearCSVData'
+export const UPDATEJSONDATA = 'updateJSONData'
+export const CLEARJSONDATA = 'clearJSONData'
+
 export const KEYSFROMPROPS = 'keysfromprops'
 export const KEYSFROMCVS = 'keysfromcvs'
 export const UPDATEKEYS = 'updateKeys'

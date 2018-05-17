@@ -41,6 +41,7 @@ export default class AddGraph extends Component {
     this.setState({
       visible: false
     })
+    //清除数据
   }
 
   render() {

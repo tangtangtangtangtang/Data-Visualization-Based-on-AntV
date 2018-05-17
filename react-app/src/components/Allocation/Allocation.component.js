@@ -12,14 +12,6 @@ import GeomAllocation from './GeomAllocation/index'
 
 export default class graphContainer extends Component {
     render() {
-        // const all = {
-        //     // AreaGraph: <AreaGraph allocation={this.props.allocation} />,
-        //     // BoxGraph: <BoxGraph allocation={this.props.allocation} />,
-        //     BarGraph: <BarGraph allocation={this.props.allocation} />,
-        //     LineGraph: <LineGraph allocation={this.props.allocation} />,
-        // }
-        // const type = all[window.location.hash.replace("#", "")];
-        // const kindsConfig = allocationConfig[window.location.hash.replace("#", "")]
         return (
             <React.Fragment>
                 <Row>

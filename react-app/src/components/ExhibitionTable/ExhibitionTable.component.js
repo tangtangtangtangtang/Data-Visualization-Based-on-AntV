@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types"
 import { Card } from "antd"
 
 export default class ExhibitionTable extends Component {
@@ -20,8 +19,4 @@ export default class ExhibitionTable extends Component {
             </div >
         )
     }
-}
-
-ExhibitionTable.PropTypes = {
-    userData: PropTypes.array
 }

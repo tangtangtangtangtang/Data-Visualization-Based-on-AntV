@@ -20,9 +20,9 @@ export const changeJSONDataAction = (value) => ({
     value
 })
 
-export const getJSONDataAction = {
-    type: "getJSONData"
-}
+export const JSONDataAction = (type) => ({
+    type
+})
 
 export const changeAllocationKinds = (key, value) => ({
     type: "updateAllocationKinds",

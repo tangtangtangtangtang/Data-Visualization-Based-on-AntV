@@ -1,7 +1,7 @@
 import "react"
 import { connect } from "react-redux"
 import BarGraph from './BarGraph.component'
-import { getJSONDataAction, updateChart } from '../../../actions/index'
+import { updateChart } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
@@ -14,7 +14,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onGetJSONDataAction: () => dispatch(getJSONDataAction),
         onUpdateChart: (value) => dispatch(updateChart(value))
     }
 }

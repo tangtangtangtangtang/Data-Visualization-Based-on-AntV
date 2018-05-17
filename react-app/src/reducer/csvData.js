@@ -1,5 +1,5 @@
 import deepClone from 'lodash.clonedeep'
-import { UPDATECSVDATA } from '../actions/actionType'
+import { UPDATECSVDATA, CLEARCSVDATA } from '../actions/actionType'
 const csvData = (state = {
     data: '',
     fileName: '',
@@ -11,6 +11,11 @@ const csvData = (state = {
             result.data = action.value;
             result.keys = action.value.split('\n')[0].split(',');
             result.fileName = action.fileName;
+            break;
+        case CLEARCSVDATA:
+            result.data = '';
+            result.keys = [];
+            result.fileName = '';
             break;
         default:
             return state;
