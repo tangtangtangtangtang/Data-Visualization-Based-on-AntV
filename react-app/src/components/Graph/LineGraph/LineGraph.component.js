@@ -33,9 +33,9 @@ export default class LineGraph extends Component {
     });
     let ds = new DateSet();
     let dv = ds.createView("normal");
-    this.props.onUpdateChart(UPDATECHART, chart)
-    this.props.onUpdateChart(UPDATEDS, ds)
-    this.props.onUpdateChart(UPDATEDV, dv)
+    this.props.onChartChange(UPDATECHART, chart)
+    this.props.onChartChange(UPDATEDS, ds)
+    this.props.onChartChange(UPDATEDV, dv)
     if (this.props.graphManger.allocation) {
       //todo 需要对源发生变化和配置变化做出比较
       if (this.props.graphManger.JSONData === true) {
@@ -55,13 +55,11 @@ export default class LineGraph extends Component {
     let chart = this.props.chart.chart, dv, keys
     delete this.props.chart.ds.views.normal;
     dv = industry.dv(type)
-    this.props.onUpdateChart(UPDATEDV, dv)
+    this.props.onChartChange(UPDATEDV, dv)
     keys = industry.keys(type)
     chart.clear();
     chartType(window.location.hash.replace('#', ''), keys)
     chart.render();
-    // this.props.onGraphManger(CLEAR)
-    //csv格式
   }
 
   //mutiple

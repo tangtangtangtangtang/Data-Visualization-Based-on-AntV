@@ -1,7 +1,7 @@
 import "react"
 import { connect } from "react-redux"
 import LineGraph from './LineGraph.component'
-import { updateChart, graphSourceOrAllocationChanged } from '../../../actions/index'
+import { chartAction } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
@@ -16,8 +16,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onUpdateChart: (type, value) => dispatch(updateChart(type, value)),
-        onGraphManger: (type) => dispatch(graphSourceOrAllocationChanged(type))
+        onChartChange: (type, value) => dispatch(chartAction(type, value)),
     }
 }
 

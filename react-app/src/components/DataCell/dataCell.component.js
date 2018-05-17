@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Input, Button, Upload, Icon, message } from "antd"
 import "./dataCell.component.less"
 import RightSidePanel from "../RightSidePanel/index";
-import { CSVFILECHANGED, JSONDATACHANGED } from '../../actions/actionType'
+import { UPDATECSVDATA, CSVFILECHANGED, JSONDATACHANGED, UPDATEJSONDATA, UPDATEKEYS } from '../../actions/actionType'
 import axios from 'axios'
 
 //单元格
@@ -14,7 +14,6 @@ class WrapInput extends Component {
     }
 
     onValueChange(e) {
-        // this.props.onKeyValueChange();
         this.props.onCellValueChange(this.props.id, e.target.value)
     }
 
@@ -35,7 +34,7 @@ class WrapRow extends Component {
                 <span className="rowNum">{this.props.rowNum + 1}</span>
                 {
                     this.props.columnNum.map((item, index) => {
-                        return <WrapInput id={this.props.rowNum + "-" + index} cellValue={this.props.rowData[index]} onCellValueChange={this.props.onCellValueChange} onKeyValueChange={this.props.onKeyValueChange} />
+                        return <WrapInput id={this.props.rowNum + "-" + index} cellValue={this.props.rowData[index]} onCellValueChange={this.props.onCellValueChange} />
                     })
                 }
             </div>
@@ -74,9 +73,9 @@ class EditableCell extends Component {
                 })
             }
         })
-        this.props.onJSONDataChange(JSONData);
+        this.props.onJSONDataChange(UPDATEJSONDATA, JSONData);
         this.props.onGrpahManger(JSONDATACHANGED);
-        this.props.onUpdateKeys(Object.keys(JSONData[0]));
+        this.props.onKeysChange(UPDATEKEYS, Object.keys(JSONData[0]));
     }
 
     render() {
@@ -96,9 +95,9 @@ class EditableCell extends Component {
                     message.success(`${info.file.name} 文件上传成功并保存`);
                     axios.get('/getFile?fileName=' + info.file.response.fileName)
                         .then((res) => {
-                            this.props.onUpdateCSVData(res.data, info.file.response.fileName);
+                            this.props.onCSVDataChange(UPDATECSVDATA, res.data, info.file.response.fileName);
                             this.props.onGrpahManger(CSVFILECHANGED);
-                            this.props.onUpdateKeys(res.data.split('\n')[0].split(','));
+                            this.props.onKeysChange(UPDATEKEYS, res.data.split('\n')[0].split(','));
 
                         })
 
@@ -117,7 +116,7 @@ class EditableCell extends Component {
                 }
                 {
                     dataArray.map((item, index) => {
-                        return <WrapRow columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} onKeyValueChange={this.props.onKeyValueChange} rowData={this.props.excelData[index]} />
+                        return <WrapRow columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} rowData={this.props.excelData[index]} />
                     })
                 }
                 <Upload style={{ position: "absolute", right: "19%", bottom: "1%" }} {...uploadProps}>
@@ -136,9 +135,9 @@ export default class Wrap extends Component {
         let content = <EditableCell onCellValueChange={this.props.onCellValueChange}
             excelData={this.props.excelData}
             chart={this.props.chart}
-            onUpdateCSVData={this.props.onUpdateCSVData}
+            onCSVDataChange={this.props.onCSVDataChange}
             onGrpahManger={this.props.onGrpahManger}
-            onUpdateKeys={this.props.onUpdateKeys}
+            onKeysChange={this.props.onKeysChange}
             onJSONDataChange={this.props.onJSONDataChange} />
         return (
             <RightSidePanel IconTop="30%" color="black" content={content} />

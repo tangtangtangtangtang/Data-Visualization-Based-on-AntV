@@ -2,7 +2,6 @@
  * Created by tang on 18/3/6.
  */
 
-import BarGraph from '../Graph/BarGraph/index'
 import LineGraph from '../Graph/LineGraph/index'
 import React, { Component } from "react";
 import { Row, Col } from "antd";

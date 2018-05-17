@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import RightSidePanel from '../../RightSidePanel/index'
 import allocationConfig from '../config'
 import { message, Select, InputNumber, Col, Row, Form, Button, Input, Slider } from 'antd'
-import { ALLOCATIONCHANGED, GRAPHNAMECHANGED, GRAPHIDCHANGED } from '../../../actions/actionType'
+import { ALLOCATIONCHANGED, GRAPHNAMECHANGED, GRAPHIDCHANGED, UPDATEALLOCATIONSCALE, UPDATEALLOCATIONKINDS, FLASHALLOCATIONSCALE } from '../../../actions/actionType'
 import deepClone from 'lodash.clonedeep'
 import Axios from 'axios';
 import store from '../../../store'
@@ -60,13 +60,13 @@ export default class GeomAllocation extends Component {
 
     componentDidUpdate(prevProps) {
         if (JSON.stringify(prevProps.keys) !== JSON.stringify(this.props.keys)) {
-            this.props.onFlashAllocationScale();
+            this.props.onAllocationChange(FLASHALLOCATIONSCALE);
         }
     }
 
     //图标细分类型变化
-    allocationChange(value, ele) {
-        this.props.onAllocationChangeKinds(ele.props.id, value)
+    allocationChange(value) {
+        this.props.onAllocationChange(UPDATEALLOCATIONKINDS, value)
     }
 
     createData(key, value) {
@@ -80,7 +80,7 @@ export default class GeomAllocation extends Component {
     }
 
     drawPicture() {
-        this.props.onUpdateAllocationScale(this.state.allocation)
+        this.props.onAllocationChange(UPDATEALLOCATIONSCALE, this.state.allocation)
         this.props.onGraphManger(ALLOCATIONCHANGED);
     }
 
@@ -117,7 +117,7 @@ export default class GeomAllocation extends Component {
                     类型：
                     <Select onChange={this.allocationChange} defaultValue={kindsConfig[0].key} style={{ width: 140 }}>
                         {kindsConfig && kindsConfig.map(item => {
-                            return <Select.Option id="kinds" value={item.key}>{item.value}</Select.Option>
+                            return <Select.Option value={item.key}>{item.value}</Select.Option>
                         })}
                     </Select>
                 </Col>

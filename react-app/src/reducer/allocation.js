@@ -1,3 +1,5 @@
+import { UPDATEALLOCATIONKINDS, UPDATEALLOCATIONSCALE, FLASHALLOCATIONSCALE, CLEARALLOCATION } from '../actions/actionType'
+
 const allocation = (state = {
     kinds: ["base"],
     toolTip: [],
@@ -6,22 +8,21 @@ const allocation = (state = {
 }, action) => {
     let result = JSON.parse(JSON.stringify(state))
     switch (action.type) {
-        case "updateAllocationKinds":
-            result[action.key] = action.value.split(" ")
+        case UPDATEALLOCATIONKINDS:
+            result.kinds = action.value.split(" ")
             break;
-        case "updateAllocationScale":
+        case UPDATEALLOCATIONSCALE:
             result.scale = action.value;
             break;
-        case "flashAllocationScale":
+        case FLASHALLOCATIONSCALE:
             result.scale = {};
             break;
-        case "deleteAllocation":
-            for (let item in result) {
-                if (item !== "scale") {
-                    result[item] = []
-                } else if (item === "scale") {
-                    result[item] = {}
-                }
+        case CLEARALLOCATION:
+            result = {
+                kinds: ["base"],
+                toolTip: [],
+                scale: {},
+                legend: []
             }
             break;
         default:

@@ -14,19 +14,13 @@ const cellValueChange = (result, action) => {
     }
 }
 
-export const excelData = (state = { data: excelArray, key: [] }, action) => {
+export const excelData = (state = {
+    data: excelArray
+}, action) => {
     let result = JSON.parse(JSON.stringify(state));
     switch (action.type) {
         case "cellValueChange":
             cellValueChange(result.data, action)
-            break;
-        case "keyValueChange":
-            result.key = [];
-            result.data[0].forEach(item => {
-                if (item) {
-                    result.key.push(item)
-                }
-            })
             break;
         default:
             break;
@@ -36,17 +30,14 @@ export const excelData = (state = { data: excelArray, key: [] }, action) => {
 
 export const JSONData = (state = {
     data: [],
-    keys: []
 }, action) => {
     let result = deepClone(state);
     switch (action.type) {
         case UPDATEJSONDATA:
             result.data = action.value;
-            result.keys = Object.keys(action.value[0])
             break;
         case CLEARJSONDATA:
             result.data = [];
-            result.keys = [];
             break;
         default:
             result = state

@@ -1,7 +1,7 @@
 import "react"
 import { connect } from "react-redux"
 import dataCell from './dataCell.component'
-import { changeCellValueAction, changeJSONDataAction, updateCSVData, graphSourceOrAllocationChanged, updateKeys } from '../../actions/index'
+import { changeCellValueAction, JSONDataAction, CSVDataAction, graphMangerAction, keysAction } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
@@ -14,10 +14,12 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onCellValueChange: (id, value) => dispatch(changeCellValueAction(id, value)),
-        onJSONDataChange: (value) => dispatch(changeJSONDataAction(value)),
-        onUpdateCSVData: (value, fileName) => dispatch(updateCSVData(value, fileName)),
-        onGrpahManger: (type) => dispatch(graphSourceOrAllocationChanged(type)),
-        onUpdateKeys: (value) => dispatch(updateKeys(value))
+
+        onJSONDataChange: (type, value) => dispatch(JSONDataAction(type, value)),
+        onCSVDataChange: (type, value, fileName) => dispatch(CSVDataAction(type, value, fileName)),
+        onKeysChange: (type, value) => dispatch(keysAction(type, value)),
+
+        onGrpahManger: (type) => dispatch(graphMangerAction(type)),
     }
 }
 

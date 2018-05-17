@@ -1,4 +1,4 @@
-// import deepClone from 'lodash.clonedeep'
+import { UPDATECHART, UPDATEDS, UPDATEDV } from '../actions/actionType'
 
 const chart = (state = {
     chart: {},
@@ -7,17 +7,17 @@ const chart = (state = {
 }, action) => {
     let result = state
     switch (action.type) {
-        case "updateChart":
+        case UPDATECHART:
             result.chart = action.value;
+            break;
+        case UPDATEDS:
+            result.ds = action.value;
+            break;
+        case UPDATEDV:
+            result.dv = action.value;
             break;
         case "deleteChart":
             result.chart = {};
-            break;
-        case "updateds":
-            result.ds = action.value;
-            break;
-        case "updatedv":
-            result.dv = action.value;
             break;
         default:
             return state;

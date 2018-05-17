@@ -1,5 +1,5 @@
 import deepClone from 'lodash.clonedeep'
-import { JSONDATACHANGED, ALLOCATIONCHANGED, GRAPHIDCHANGED, GRAPHNAMECHANGED, CSVFILECHANGED, CLEAR } from '../actions/actionType'
+import { JSONDATACHANGED, ALLOCATIONCHANGED, GRAPHIDCHANGED, GRAPHNAMECHANGED, CSVFILECHANGED, CLEARMANGER } from '../actions/actionType'
 
 const chart = (state = {
     JSONData: false,
@@ -23,9 +23,13 @@ const chart = (state = {
         case ALLOCATIONCHANGED:
             result.allocation = true;
             break;
-        case CLEAR:
-            for (let i in result) {
-                result[i] = false
+        case CLEARMANGER:
+            result = {
+                JSONData: false,
+                csv: false,
+                allocation: false,
+                name: '未定义',
+                _id: '',
             }
             break;
         case GRAPHNAMECHANGED:

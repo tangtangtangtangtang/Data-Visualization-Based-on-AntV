@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Layout, Menu, Row, Col } from "antd";
 import "./Header.component.less";
-import AddGraph from "../AddGraph/AddGraph.component";
+import AddGraph from "../AddGraph/index";
 import Login from '../Login/index'
 import SignUp from '../SignUp/index'
 const { Header } = Layout;

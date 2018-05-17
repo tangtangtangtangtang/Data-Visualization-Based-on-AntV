@@ -1,7 +1,6 @@
 import "react"
 import { connect } from "react-redux"
 import Allocation from './Allocation.component'
-import { changeAllocationKinds } from '../../actions/index'
 
 const mapStateToProps = (state, props) => {
   return {
@@ -11,14 +10,13 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAllocationChangeKinds: (key, value) => dispatch(changeAllocationKinds(key, value))
   }
 }
 
 
-const dataCellWithRedux = connect(
+const AllocationWithRedux = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Allocation)
 
-export default dataCellWithRedux
+export default AllocationWithRedux

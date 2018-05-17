@@ -2,7 +2,6 @@
  * Created by tang on 18/3/8.
  */
 
-import { UPDATECSVDATA, UPDATEKEYS } from './actionType'
 
 export const changeCellValueAction = (id, value) => ({
     type: "cellValueChange",
@@ -11,51 +10,32 @@ export const changeCellValueAction = (id, value) => ({
     value,
 })
 
-export const changeKeyValueAction = {
-    type: "keyValueChange"
-}
-
-export const changeJSONDataAction = (value) => ({
-    type: "updateJSONData",
+export const allocationAction = (type, value) => ({
+    type,
     value
 })
 
-export const JSONDataAction = (type) => ({
-    type
-})
-
-export const changeAllocationKinds = (key, value) => ({
-    type: "updateAllocationKinds",
-    key,
-    value
-})
-
-export const flashAllocationScale = {
-    type: "flashAllocationScale",
-}
-
-export const updateAllocationScale = (value) => ({
-    type: "updateAllocationScale",
-    value,
-})
-
-export const updateChart = (type, value) => ({
+export const chartAction = (type, value) => ({
     type,
     value,
 })
 
-export const updateCSVData = (value, fileName) => ({
-    type: UPDATECSVDATA,
+//data相关
+export const JSONDataAction = (type, value) => ({
+    type,
+    value
+})
+export const CSVDataAction = (type, value, fileName) => ({
+    type,
     value,
     fileName
 })
-
-export const updateKeys = (value) => ({
-    type: UPDATEKEYS,
+export const keysAction = (type, value) => ({
+    type,
     value
 })
 
-export const graphSourceOrAllocationChanged = (type, value) => ({
+export const graphMangerAction = (type, value) => ({
     type,
     value
 })
