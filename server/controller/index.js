@@ -13,11 +13,11 @@ module.exports = {
         if (data.fileType === 'csv') {
             delete data.data
         } else {
-            let fileName = data.owner + Date.now()
-            let filePath = __dirname + `/../myCsvUploadFile/${fileName}.JSON`
+            let fileName = data.owner + Date.now() + '.json'
             data.fileName = fileName;
         }
         if (data._id) {
+            //文件已存在或上传文件型
             await db.graphModel.findOneAndUpdate({ _id: data._id }, data)
                 .then((graph) => {
                     ctx.body = {
@@ -33,7 +33,16 @@ module.exports = {
                     }
                 })
         } else {
+            //初次保存JSON类数据
             delete data._id
+            await fsExtra.outputFile(`${__dirname}/../myCsvUploadFile/${data.fileName}`, JSON.stringify(data.data), err => {
+                if (err) {
+                    ctx.body = {
+                        code: false,
+                        message: '文件保存失败'
+                    }
+                }
+            })
             await db.graphModel.create(data)
                 .then((graph) => {
                     ctx.body = {

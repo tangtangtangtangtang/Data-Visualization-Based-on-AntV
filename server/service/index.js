@@ -18,8 +18,6 @@ module.exports = {
                 flag = true;
             })
             .catch((err) => {
-                console.log('fail')
-                //mkdir
                 fs.mkdir('/upload')
             })
         return ctx.body = {
