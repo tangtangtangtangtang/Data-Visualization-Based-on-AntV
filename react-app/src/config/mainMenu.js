@@ -27,7 +27,6 @@ export default {
       key: "PieGraph",
       icon: "pie-graph",
       component: ExhibitionTable,
-
     },
     {
       title: "点图",

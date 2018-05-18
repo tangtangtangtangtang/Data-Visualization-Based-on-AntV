@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import menuConfigs from "../config";
+import HashRouter from "react-router-dom/HashRouter";
 
 export default class AppRoutes extends Component {
   constructor(props) {
@@ -19,20 +20,24 @@ export default class AppRoutes extends Component {
     let routes = [];
 
     menuConfigs.forEach(config => {
+      routes.push({
+        path: `/${config.channel}`,
+        component: config.component
+      })
       config.menus.forEach(menu => {
         routes.push({
-          path: `/${config.channel}/${menu.key}`,
-          component: menu.component
+          path: `/${config.channel}/${menu.key || ''}`,
+          component: menu.component,
+          hash: '#' + menu.hash
         })
         menu.items && menu.items.forEach(segment => {
           routes.push({
-            path: `/${config.channel}/${menu.key}/${segment.key}`,
-            component: segment.component
+            path: `/${config.channel}/${menu.key}/${segment.key || ''}`,
+            component: segment.component,
+            hash: '#' + segment.hash
           })
         })
-
       })
-
     })
 
     return (
@@ -40,7 +45,7 @@ export default class AppRoutes extends Component {
         {
           routes.map(route => {
             return <Route exact path={route.path}
-              key={route.path}
+              key={route.path + '#' + route.hash}
               component={route.component}>
             </Route>
           })

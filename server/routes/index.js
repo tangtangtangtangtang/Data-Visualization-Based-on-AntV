@@ -6,23 +6,23 @@ const router = new Router()
 let routes = [
 
   {
-    path: '/saveGraph',
+    path: '/api/saveGraph',
     controller: ctrl.saveGraphByAccount,
     method: 'post',
   }, {
-    path: '/signUp',
+    path: '/api/signUp',
     controller: ctrl.signUp,
     method: 'post'
   }, {
-    path: '/logIn',
+    path: '/api/logIn',
     controller: ctrl.logIn,
     method: 'post',
   }, {
-    path: "/uploadData",
+    path: "/api/uploadData",
     controller: svc.uploadManger,
     method: "post",
   }, {
-    path: '/getFile',
+    path: '/api/getFile',
     controller: svc.sendFile,
     method: 'get'
   }, {

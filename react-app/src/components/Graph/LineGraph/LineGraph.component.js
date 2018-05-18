@@ -11,18 +11,7 @@ import chartType from '../industry/chartType'
 export default class LineGraph extends Component {
   componentDidUpdate(prevProps, state) {
     //发生变化时重置
-    if (this.props.graphManger.allocation) {
-      //todo 需要对源发生变化和配置变化做出比较
-      if (this.props.graphManger.JSONData === true) {
-        //页面操作
-        this.initData(KEYSFROMPROPS);
-      } else if (this.props.graphManger.csv === true) {
-        //文件操作
-        this.initData(KEYSFROMCVS)
-      } else if (this.props.graphManger.allocation === true) {
-        //allocation发生变化
-      }
-    }
+    this.common()
   }
 
 
@@ -32,31 +21,32 @@ export default class LineGraph extends Component {
       forceFit: true
     });
     let ds = new DateSet();
-    let dv = ds.createView("normal");
+    // let dv = ds.createView("normal");
     this.props.onChartChange(UPDATECHART, chart)
     this.props.onChartChange(UPDATEDS, ds)
-    this.props.onChartChange(UPDATEDV, dv)
+    // this.props.onChartChange(UPDATEDV, dv)
+    this.common()
+  }
+
+  common() {
     if (this.props.graphManger.allocation) {
-      //todo 需要对源发生变化和配置变化做出比较
-      if (this.props.graphManger.JSONData === true) {
-        //页面操作
-        this.initData(KEYSFROMPROPS);
-      } else if (this.props.graphManger.csv === true) {
-        //文件操作
-        this.initData(KEYSFROMCVS)
-      } else if (this.props.graphManger.allocation === true) {
-        //allocation发生变化
-      }
+      delete this.props.chart.ds.views.normal;
+      let dv = industry.dv()
+      this.props.onChartChange(UPDATEDV, dv)
+      this.initData()
     }
   }
 
-  initData(type) {
-    //JSON格式
-    let chart = this.props.chart.chart, dv, keys
-    delete this.props.chart.ds.views.normal;
-    dv = industry.dv(type)
-    this.props.onChartChange(UPDATEDV, dv)
-    keys = industry.keys(type)
+  slider() {
+
+  }
+
+  initData() {
+    //slider
+    industry.ds()
+
+    let chart = this.props.chart.chart, keys
+    keys = industry.keys()
     chart.clear();
     chartType(window.location.hash.replace('#', ''), keys)
     chart.render();

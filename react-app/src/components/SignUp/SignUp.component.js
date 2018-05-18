@@ -12,7 +12,7 @@ class RegistrationForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                axios.post('/signUp', values, {
+                axios.post('/api/signUp', values, {
                     responseEncoding: 'utf-8'
                 })
                     .then((res) => {

@@ -19,7 +19,7 @@ export default class App extends Component {
             <Route path="/" component={MyHeader}></Route>
             <Layout>
               <Route path="/:channel" component={MySider}></Route>
-              <Content>
+              <Content style={{ padding: '10px 20px' }}>
                 <AppContent></AppContent>
               </Content>
             </Layout>

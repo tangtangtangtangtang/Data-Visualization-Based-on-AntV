@@ -88,14 +88,14 @@ class EditableCell extends Component {
         const uploadProps = {
             name: 'csvData',
             accept: "text/csv",
-            action: '/uploadData',
+            action: '/api/uploadData',
             showUploadList: false,
             onChange: (info) => {
-                if (info.file.status === 'done' && info.file.response.flag) {
+                if (info.file.status === 'done' && info.file.response.code) {
                     message.success(`${info.file.name} 文件上传成功并保存`);
-                    axios.get('/getFile?fileName=' + info.file.response.fileName)
+                    axios.get('/api/getFile?fileName=' + info.file.response.fileName)
                         .then((res) => {
-                            this.props.onCSVDataChange(UPDATECSVDATA, res.data, info.file.response.fileName);
+                            this.props.onCSVDataChange(UPDATECSVDATA, res.data);
                             this.props.onGrpahManger(CSVFILECHANGED);
                             this.props.onKeysChange(UPDATEKEYS, res.data.split('\n')[0].split(','));
 

@@ -4,58 +4,87 @@ const fsExtra = require('fs-extra')
 const logger = require('koa-logger')
 const db = require('../dbService/dbconnect')
 const md5 = require('md5')
+const mongoose = require('mongoose')
 module.exports = {
     index: async (ctx) => {
         await ctx.render("index.ejs")
     },
     saveGraphByAccount: async (ctx) => {
-        let data = ctx.request.body
-        if (data.fileType === 'csv') {
-            delete data.data
-        } else {
-            let fileName = data.owner + Date.now() + '.json'
-            data.fileName = fileName;
-        }
-        if (data._id) {
-            //文件已存在或上传文件型
-            await db.graphModel.findOneAndUpdate({ _id: data._id }, data)
-                .then((graph) => {
-                    ctx.body = {
-                        code: true,
-                        message: '保存成功',
-                        _id: graph.id
-                    }
-                })
+        let data = ctx.request.body;
+        let fileExt = data.fileType;
+        let fileBasePath = `${__dirname}/../fileStore`
+        let ObjectId = new mongoose.Types.ObjectId()
+        let _id = ObjectId.toHexString();
+        if (fileExt === 'csv' && !data._id) {
+            //初次保存csv文件
+            data._id = _id;
+            await fsExtra.copy(`${fileBasePath}/temp.csv`,
+                `${fileBasePath}/${data._id}.csv`)
                 .catch(err => {
-                    ctx.body = {
-                        code: false,
-                        message: err.message
-                    }
+                    console.log(err)
                 })
-        } else {
-            //初次保存JSON类数据
-            delete data._id
-            await fsExtra.outputFile(`${__dirname}/../myCsvUploadFile/${data.fileName}`, JSON.stringify(data.data), err => {
-                if (err) {
-                    ctx.body = {
-                        code: false,
-                        message: '文件保存失败'
-                    }
-                }
-            })
+            data.fileName = `${data._id}.csv`
             await db.graphModel.create(data)
-                .then((graph) => {
+                .then(graph => {
                     ctx.body = {
                         code: true,
                         message: '保存成功',
-                        _id: graph.id
+                        _id: data._id
                     }
                 })
                 .catch(err => {
+                    console.log(err)
+                })
+        } else if (fileExt === 'csv' && data._id) {
+            await fsExtra.copy(`${fileBasePath}/temp.csv`,
+                `${fileBasePath}/${data._id}.csv`)
+                .catch(err => {
+                    console.log(err)
+                })
+            await db.graphModel.findOneAndUpdate({ _id: data._id }, data)
+                .then(graph => {
                     ctx.body = {
-                        code: false,
-                        message: err
+                        code: true,
+                        message: '保存成功',
+                        _id: data._id
                     }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } else if (fileExt === 'json' && !data._id) {
+            data._id = _id;
+            await fsExtra.outputFile(`${fileBasePath}/${data._id}.json`, JSON.parse(data.data))
+                .catch(err => {
+                    console.log(err)
+                })
+            data.fileName = `${data._id}.csv`
+            await db.graphModel.create(data)
+                .then(graph => {
+                    ctx.body = {
+                        code: true,
+                        message: '保存成功',
+                        _id: data._id
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        } else {
+            await fsExtra.outputFile(`${fileBasePath}/${data._id}.json`, JSON.parse(data.data))
+                .catch(err => {
+                    console.log(err)
+                })
+            await db.graphModel.create(data)
+                .then(graph => {
+                    ctx.body = {
+                        code: true,
+                        message: '保存成功',
+                        _id: data._id
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
                 })
         }
     },

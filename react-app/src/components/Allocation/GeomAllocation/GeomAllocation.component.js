@@ -90,9 +90,9 @@ export default class GeomAllocation extends Component {
             message.error('还未登录，不能保存!');
             return
         }
-        Axios.post('/saveGraph', {
+        Axios.post('/api/saveGraph', {
             allocation: states.allocation,
-            fileName: states.graphManger.csv ? states.csvData.fileName : '',
+            // fileName: states.graphManger.csv ? states.csvData.fileName : '',
             fileType: states.graphManger.csv ? 'csv' : states.graphManger.JSONData ? 'json' : '',
             name: states.graphManger.name,
             owner: states.userData.info.account,

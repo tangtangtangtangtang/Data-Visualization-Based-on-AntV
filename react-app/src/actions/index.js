@@ -25,10 +25,10 @@ export const JSONDataAction = (type, value) => ({
     type,
     value
 })
-export const CSVDataAction = (type, value, fileName) => ({
+export const CSVDataAction = (type, value) => ({
     type,
     value,
-    fileName
+
 })
 export const keysAction = (type, value) => ({
     type,

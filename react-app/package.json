@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@antv/g2": "^3.0.7",
+    "@antv/g2": "^3.0.12",
     "ajv": "^6.2.1",
     "animate.css": "^3.6.1",
     "antd": "^3.2.3",

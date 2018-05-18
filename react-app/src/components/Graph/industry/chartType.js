@@ -15,6 +15,7 @@ let common = () => {
 let chartType = (type, keys) => {
     let states = store.getState();
     let chart = states.chart.chart;
+    industry.transform('mapToFloat', keys)
     switch (type) {
         case 'LineGraph':
             //数据操作

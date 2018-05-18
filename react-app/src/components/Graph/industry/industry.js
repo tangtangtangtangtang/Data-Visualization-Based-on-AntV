@@ -1,24 +1,32 @@
 import store from '../../../store';
 import deepClone from 'lodash.clonedeep'
 import { KEYSFROMCVS } from '../../../actions/actionType'
+import { Switch } from 'react-router-dom';
 //图像attr
 export default {
-    keys: (type) => {
-        let result;
-        switch (type) {
-            case KEYSFROMCVS:
-                result = store.getState().keys
-                break;
-            default:
-                result = store.getState().keys;
-                break;
-        }
+    keys: () => {
+        let result = store.getState().keys;
         return result;
     },
-    dv: (type) => {
+
+    ds(type) {
         let result, states = store.getState();
         switch (type) {
-            case KEYSFROMCVS:
+            case 'sliderState':
+                states.chart.ds.setState('from', '');
+                states.chart.ds.setState('to', '');
+                break;
+
+            default:
+                break;
+        }
+    },
+
+    dv: () => {
+        let result, states = store.getState();
+        let type = states.graphManger.csv
+        switch (type) {
+            case true:
                 result = states.chart.ds.createView('normal').source(states.csvData.data, { type: 'csv', delimiter: ',' });
                 break;
             default:
@@ -29,10 +37,33 @@ export default {
     },
     transform: (method, keys) => {
         //keys
-        console.log('transform')
         let states = store.getState();
         keys = deepClone(keys)
         switch (method) {
+            case 'filter':
+                states.chart.dv.transform({
+                    type: 'filter',
+                    callback(row) {
+                        return row
+                    }
+                })
+                break;
+            case 'mapToFloat':
+                states.chart.dv.transform({
+                    type: 'map',
+                    callback(row) {
+                        for (let i in row) {
+                            if (typeof row[i] === 'string') {
+                                row[i] = row[i].trim()
+                            }
+                            if (/^(\-)?\d+(\.\d{0,})?$/.test(row[i])) {
+                                row[i] = parseFloat(row[i])
+                            }
+                        }
+                        return row
+                    },
+                })
+                break;
             case "fold":
                 let fields = keys.slice(1, );
                 states.chart.dv.transform({

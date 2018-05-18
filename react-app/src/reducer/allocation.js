@@ -1,4 +1,4 @@
-import { UPDATEALLOCATIONKINDS, UPDATEALLOCATIONSCALE, FLASHALLOCATIONSCALE, CLEARALLOCATION } from '../actions/actionType'
+import { UPDATEALLOCATIONKINDS, UPDATEALLOCATIONSCALE, FLASHALLOCATIONSCALE, CLEARALLOCATION, INITALLOCATION } from '../actions/actionType'
 
 const allocation = (state = {
     kinds: ["base"],
@@ -24,6 +24,9 @@ const allocation = (state = {
                 scale: {},
                 legend: []
             }
+            break;
+        case INITALLOCATION:
+            result = action.value
             break;
         default:
             return state

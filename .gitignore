@@ -1,4 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 server/public
 server/node_modules
-server/myCsvUploadFile
+server/fileStore

@@ -13,7 +13,7 @@ class LoginForm extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                axios.post('/logIn', values)
+                axios.post('/api/logIn', values)
                     .then((res) => {
                         if (res.data.code) {
                             message.success(res.data.message)
