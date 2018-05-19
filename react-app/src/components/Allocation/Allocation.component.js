@@ -2,7 +2,7 @@
  * Created by tang on 18/3/6.
  */
 
-import LineGraph from '../Graph/LineGraph/index'
+import Graph from '../Graph/Graph/index'
 import React, { Component } from "react";
 import { Row, Col } from "antd";
 //各种allocation
@@ -15,7 +15,7 @@ export default class graphContainer extends Component {
             <React.Fragment>
                 <Row>
                     <Col span={20}>
-                        <LineGraph allocation={this.props.allocation} />
+                        <Graph allocation={this.props.allocation} />
                     </Col>
                 </Row>
                 <GeomAllocation graphType={window.location.hash.replace("#", "")} />

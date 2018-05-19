@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Row, Col } from "antd"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { UPDATECSVDATA, UPDATEJSONDATA, INITALLOCATION, INITMANGER, UPDATEKEYS } from '../../actions/actionType'
+import { UPDATEDATA, INITALLOCATION, INITMANGER } from '../../actions/actionType'
 const { Meta } = Card
 
 export default class ExhibitionTable extends Component {
@@ -19,7 +19,7 @@ export default class ExhibitionTable extends Component {
             .then((res) => {
                 //data
                 if (res.headers['content-type'].indexOf('csv') !== -1) {
-                    this.props.onCSVDataChange(UPDATECSVDATA, res.data);
+                    this.props.onDataChange(UPDATEDATA, res.data);
                     //graphmanger
                     this.props.onGraphManger(INITMANGER, {
                         JSONData: false,
@@ -28,10 +28,8 @@ export default class ExhibitionTable extends Component {
                         name: graph.name,
                         _id: graph._id,
                     });
-                    //keys
-                    this.props.onKeysChange(UPDATEKEYS, res.data.split('\n')[0].split(','))
                 } else {
-                    this.props.onJSONDataChange(UPDATEJSONDATA, res.data);
+                    this.props.onDataChange(UPDATEDATA, res.data);
                     //graphmanger
                     this.props.onGraphManger(INITMANGER, {
                         JSONData: true,
@@ -40,8 +38,6 @@ export default class ExhibitionTable extends Component {
                         name: graph.name,
                         _id: graph.id,
                     });
-                    //keys
-                    this.props.onKeysChange(UPDATEKEYS, Object.keys(res.data[0]))
                 }
                 //allocation
                 this.props.onAllocationChange(INITALLOCATION, graph.allocation);

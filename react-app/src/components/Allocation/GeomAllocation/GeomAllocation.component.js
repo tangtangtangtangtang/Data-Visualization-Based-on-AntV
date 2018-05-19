@@ -37,7 +37,7 @@ export default class GeomAllocation extends Component {
     componentWillReceiveProps(receiveProps) {
         if (receiveProps.keys !== this.props.keys) {
             this.setState({
-                form: receiveProps.keys && receiveProps.keys.map(dataKey => {
+                form: receiveProps.keys && receiveProps.keys.map((dataKey, index) => {
                     let WrappedRowForm = Form.create({
                         onValuesChange: (props, changedFields, allFields) => {
                             props.onChange(changedFields, allFields)
@@ -51,7 +51,7 @@ export default class GeomAllocation extends Component {
                             }
                         }
                     })(RowForm)
-                    return <WrappedRowForm allocation={this.props.allocation} onChange={this.formChange} dataKey={dataKey} />
+                    return <WrappedRowForm allocation={this.props.allocation} onChange={this.formChange} dataKey={dataKey} index={index} />
                 }),
             })
         }
@@ -239,7 +239,7 @@ class RowForm extends Component {
         return (<Row>
             <Form>
                 <Col span={10}>
-                    <span style={{ display: "block" }}>{this.props.dataKey}</span>
+                    <span style={{ display: "block" }}>{this.props.index ? 'Y轴' : 'X轴'}</span>
                     <Form.Item>
                         {
                             getFieldDecorator(`type`, {

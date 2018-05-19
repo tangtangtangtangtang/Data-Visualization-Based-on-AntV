@@ -30,7 +30,7 @@ export const CSVDataAction = (type, value) => ({
     value,
 
 })
-export const keysAction = (type, value) => ({
+export const dataAction = (type, value) => ({
     type,
     value
 })

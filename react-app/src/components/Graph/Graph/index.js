@@ -1,16 +1,13 @@
 import "react"
 import { connect } from "react-redux"
-import LineGraph from './LineGraph.component'
+import Graph from './Graph.component'
 import { chartAction } from '../../../actions/index'
 
 const mapStateToProps = (state, props) => {
     return {
-        JSONData: state.JSONData,
-        csvData: state.csvData,
-        allocation: state.allocation,
         chart: state.chart,
         graphManger: state.graphManger,
-
+        data: state.data
     }
 }
 
@@ -21,9 +18,9 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-const LineGraphWithRedux = connect(
+const GraphWithRedux = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(LineGraph)
+)(Graph)
 
-export default LineGraphWithRedux
+export default GraphWithRedux

@@ -2,17 +2,7 @@
 export const UPDATECHART = "updateChart"
 export const UPDATEDV = 'updatedv'
 export const UPDATEDS = 'updateds'
-
-export const JSONDATACHANGED = 'JSONDataChanged'
-export const CSVFILECHANGED = 'CSVFileChanged'
-export const ALLOCATIONCHANGED = 'allocationChanged'
-export const GRAPHNAMECHANGED = 'graphNameChanged'
-export const GRAPHIDCHANGED = 'graphIdChanged'
-
-//keys相关
-export const KEYSFROMPROPS = 'keysfromprops'
-export const KEYSFROMCVS = 'keysfromcvs'
-export const UPDATEKEYS = 'updateKeys'
+export const UPDATESLIDER = 'updateSlider'
 
 //user相关
 export const UPDATEUSERINFO = 'updateUserInfo'
@@ -27,11 +17,14 @@ export const CLEARALLOCATION = 'clearallocation'
 export const INITALLOCATION = 'initAllocation'
 
 //data相关
-export const UPDATECSVDATA = 'updateCSVData'
-export const CLEARCSVDATA = 'clearCSVData'
-export const UPDATEJSONDATA = 'updateJSONData'
-export const CLEARJSONDATA = 'clearJSONData'
+export const UPDATEDATA = 'updateData'
+export const CLEARDATA = 'clearData'
 
 //manger
 export const CLEARMANGER = 'clearManger'
 export const INITMANGER = 'initManger'
+export const JSONDATACHANGED = 'JSONDataChanged'
+export const CSVFILECHANGED = 'CSVFileChanged'
+export const ALLOCATIONCHANGED = 'allocationChanged'
+export const GRAPHNAMECHANGED = 'graphNameChanged'
+export const GRAPHIDCHANGED = 'graphIdChanged'

@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { Modal, Icon, Card } from "antd";
 import "./AddGraph.component.less"
 import { Link } from "react-router-dom";
-import { CLEARCSVDATA, CLEARJSONDATA, CLEARMANGER, CLEARALLOCATION } from '../../actions/actionType'
+import { CLEARDATA, CLEARMANGER, CLEARALLOCATION } from '../../actions/actionType'
 
 export default class AddGraph extends Component {
   constructor(props) {
@@ -40,8 +40,7 @@ export default class AddGraph extends Component {
 
   handleCardClick(e) {
     //清除数据
-    this.props.onCSVDataChange(CLEARCSVDATA);
-    this.props.onJSONDataChange(CLEARJSONDATA);
+    this.props.onDataChange(CLEARDATA);
     this.props.onAllocationChange(CLEARALLOCATION);
     this.props.onGraphManger(CLEARMANGER)
     this.setState({

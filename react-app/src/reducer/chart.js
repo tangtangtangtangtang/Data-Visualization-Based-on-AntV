@@ -1,9 +1,10 @@
-import { UPDATECHART, UPDATEDS, UPDATEDV } from '../actions/actionType'
+import { UPDATECHART, UPDATEDS, UPDATEDV, UPDATESLIDER } from '../actions/actionType'
 
 const chart = (state = {
     chart: {},
     ds: {},
-    dv: {}
+    dv: {},
+    slider: {}
 }, action) => {
     let result = state
     switch (action.type) {
@@ -15,6 +16,9 @@ const chart = (state = {
             break;
         case UPDATEDV:
             result.dv = action.value;
+            break;
+        case UPDATESLIDER:
+            result.slider = action.value
             break;
         case "deleteChart":
             result.chart = {};

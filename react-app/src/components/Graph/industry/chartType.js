@@ -4,8 +4,16 @@ import industry from './industry'
 let common = () => {
     let states = store.getState();
     let chart = states.chart.chart;
-    //坐标操作    
+    //载入数据
     chart.source(states.chart.dv);
+    //根据scale的转换操作
+    for (let i in states.allocation.scale) {
+        let allocationObject = states.allocation.scale[i]
+        //todo 最大值小于最小值的限定s
+        if (['linear', 'pow', 'log'].indexOf(allocationObject.type) !== -1) {
+            industry.transform('mapToFloat', { field: i })
+        }
+    }
     //scale操作
     if (JSON.stringify(states.allocation.scale) !== '{}') {
         industry.scale()
@@ -15,41 +23,37 @@ let common = () => {
 let chartType = (type, keys) => {
     let states = store.getState();
     let chart = states.chart.chart;
-    industry.transform('mapToFloat', keys)
     switch (type) {
         case 'LineGraph':
             //数据操作
             if (keys.length > 2) {
-                keys = industry.transform('fold', keys);
+                keys = industry.transform('fold', { keys });
             }
             common()
             if (states.allocation.kinds.indexOf("hv") !== -1) {
-                chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color(keys[2] ? keys[2] : keys[1]);
+                chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             } else {
-                chart.line().position(`${keys[0]}*${keys[1]}`).shape("").color(keys[2] ? keys[2] : keys[1]);
-                chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle').style({
-                    stroke: '#fff',
-                    lineWidth: 1
-                });
+                chart.line().position(`${keys[0]}*${keys[1]}`).shape("").color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
+                chart.point().position(`${keys[0]}*${keys[1]}`).size(4).shape('circle')
             }
             break;
         case 'BarGraph':
             //数据操作
             if (keys.length > 2) {
-                keys = industry.transform('fold', keys);
+                keys = industry.transform('fold', { keys });
             }
             common();
             if (states.allocation.kinds.indexOf("fenzu") !== -1) {
-                chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : keys[1]).adjust({ type: "dodge" });
+                chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)').adjust({ type: "dodge" });
             } else if (states.allocation.kinds.indexOf("duidie") !== -1) {
-                chart.intervalStack().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : keys[1]);
+                chart.intervalStack().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             } else {
-                chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : keys[1]);
+                chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             }
             break;
         case 'PieGraph':
             //数据操作
-            industry.transform('percent', keys)
+            industry.transform('percent', { keys })
             common();
             states.chart.chart.tooltip({
                 showTitle: false,
@@ -105,8 +109,6 @@ let chartType = (type, keys) => {
             }
             break;
         case 'PointGraph':
-            //数据操作
-            // industry.transform('percent', keys)
             common();
             //坐标操作
             chart.point().position(`${keys[0]}*${keys[1]}`)

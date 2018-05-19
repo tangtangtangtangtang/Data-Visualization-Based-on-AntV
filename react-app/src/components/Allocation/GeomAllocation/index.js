@@ -6,7 +6,7 @@ import { allocationAction, graphMangerAction } from '../../../actions/index'
 const mapStateToProps = (state, props) => {
     return {
         allocation: state.allocation,
-        keys: state.keys,
+        keys: state.data.keys,
         excelData: state.excelData.data,
     }
 }

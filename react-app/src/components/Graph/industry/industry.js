@@ -1,58 +1,50 @@
 import store from '../../../store';
 import deepClone from 'lodash.clonedeep'
-import { KEYSFROMCVS } from '../../../actions/actionType'
-import { Switch } from 'react-router-dom';
-//图像attr
 export default {
     keys: () => {
-        let result = store.getState().keys;
+        let result = store.getState().data.keys;
         return result;
     },
-
-    ds(type) {
-        let result, states = store.getState();
+    ds(type, action) {
+        let states = store.getState();
         switch (type) {
             case 'sliderState':
-                states.chart.ds.setState('from', '');
-                states.chart.ds.setState('to', '');
+                let start = action ? action.startValue : states.data.start;
+                let end = action ? action.endValue : states.data.end;
+                states.chart.ds.setState('start', start);
+                states.chart.ds.setState('end', end);
                 break;
-
             default:
                 break;
         }
     },
-
     dv: () => {
         let result, states = store.getState();
-        let type = states.graphManger.csv
-        switch (type) {
-            case true:
-                result = states.chart.ds.createView('normal').source(states.csvData.data, { type: 'csv', delimiter: ',' });
-                break;
-            default:
-                result = states.chart.ds.createView("normal").source(states.JSONData.data);
-                break;
-        }
+        result = states.chart.ds.createView('normal').source(states.data.data);
         return result;
     },
-    transform: (method, keys) => {
+    transform: (method, option) => {
         //keys
         let states = store.getState();
-        keys = deepClone(keys)
+        let keys = deepClone(option ? option.keys : '')
         switch (method) {
-            case 'filter':
+            case 'filterSlider':
                 states.chart.dv.transform({
                     type: 'filter',
                     callback(row) {
-                        return row
+                        return row[states.data.xAxis] >= states.chart.ds.state.start && row[states.data.xAxis] <= states.chart.ds.state.end
                     }
                 })
                 break;
             case 'mapToFloat':
+                let field = option.field;
                 states.chart.dv.transform({
                     type: 'map',
                     callback(row) {
                         for (let i in row) {
+                            if (i !== field) {
+                                continue
+                            }
                             if (typeof row[i] === 'string') {
                                 row[i] = row[i].trim()
                             }
@@ -69,10 +61,11 @@ export default {
                 states.chart.dv.transform({
                     type: method,
                     key: "key",
-                    value: 'value',
+                    value: keys[1],
                     fields,
+                    retains: [keys[0]]
                 })
-                keys = [keys[0], 'value', 'key']
+                keys = [keys[0], keys[1], 'key']
                 break;
             case 'percent':
                 states.chart.dv.transform({
@@ -108,7 +101,9 @@ export default {
     //坐标轴操作
     coord: () => {
 
-    }
+    },
+    //slider
+
 }
     //scale
 

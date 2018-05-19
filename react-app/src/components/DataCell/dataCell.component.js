@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Input, Button, Upload, Icon, message } from "antd"
 import "./dataCell.component.less"
 import RightSidePanel from "../RightSidePanel/index";
-import { UPDATECSVDATA, CSVFILECHANGED, JSONDATACHANGED, UPDATEJSONDATA, UPDATEKEYS } from '../../actions/actionType'
+import { UPDATEDATA, CSVFILECHANGED, JSONDATACHANGED } from '../../actions/actionType'
 import axios from 'axios'
 
 //单元格
@@ -73,9 +73,8 @@ class EditableCell extends Component {
                 })
             }
         })
-        this.props.onJSONDataChange(UPDATEJSONDATA, JSONData);
+        this.props.onDataChange(UPDATEDATA, JSONData);
         this.props.onGrpahManger(JSONDATACHANGED);
-        this.props.onKeysChange(UPDATEKEYS, Object.keys(JSONData[0]));
     }
 
     render() {
@@ -95,9 +94,8 @@ class EditableCell extends Component {
                     message.success(`${info.file.name} 文件上传成功并保存`);
                     axios.get('/api/getFile?fileName=' + info.file.response.fileName)
                         .then((res) => {
-                            this.props.onCSVDataChange(UPDATECSVDATA, res.data);
+                            this.props.onDataChange(UPDATEDATA, res.data);
                             this.props.onGrpahManger(CSVFILECHANGED);
-                            this.props.onKeysChange(UPDATEKEYS, res.data.split('\n')[0].split(','));
 
                         })
 
@@ -135,10 +133,9 @@ export default class Wrap extends Component {
         let content = <EditableCell onCellValueChange={this.props.onCellValueChange}
             excelData={this.props.excelData}
             chart={this.props.chart}
-            onCSVDataChange={this.props.onCSVDataChange}
+            onDataChange={this.props.onDataChange}
             onGrpahManger={this.props.onGrpahManger}
-            onKeysChange={this.props.onKeysChange}
-            onJSONDataChange={this.props.onJSONDataChange} />
+        />
         return (
             <RightSidePanel IconTop="30%" color="black" content={content} />
         )

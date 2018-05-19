@@ -5,21 +5,19 @@ import { combineReducers } from "redux"
 import userData from "./userData"
 import allocation from './allocation'
 import chart from './chart'
-import { excelData, JSONData } from './excelData'
+import excelData from './excelData'
 import expandOrNot from "./expandManger";
 import graphManger from './graphManger'
-import csvData from './csvData'
-import keys from './keys'
+import data from './data'
 const reducer = combineReducers({
     userData,
     excelData,
-    JSONData,
+    data,
     allocation,
     chart,
     expandOrNot,
     graphManger,
-    csvData,
-    keys
+
 })
 
 export default reducer
