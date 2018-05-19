@@ -27,7 +27,7 @@ let startCommon = () => {
 let endCommon = (type) => {
     let states = store.getState();
     let chart = states.chart.chart
-    if (['LineGraph', 'BarGraph', 'PointGraph'].indexOf(type) !== -1) {
+    if (['LineGraph', 'BarGraph', 'PointGraph', 'AreaGraph'].indexOf(type) !== -1) {
         switch (states.allocation.coord) {
             case 'transpose':
                 chart.coord().transpose()
@@ -55,7 +55,7 @@ let chartType = (type, keys) => {
                 keys = industry.transform('fold', { keys });
             }
             common()
-            if (states.allocation.kinds.indexOf("hv") !== -1) {
+            if (states.allocation.kinds === 'hv') {
                 chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             } else {
                 chart.line().position(`${keys[0]}*${keys[1]}`).shape("").color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
@@ -68,9 +68,9 @@ let chartType = (type, keys) => {
                 keys = industry.transform('fold', { keys });
             }
             common();
-            if (states.allocation.kinds.indexOf("fenzu") !== -1) {
+            if (states.allocation.kinds === 'fenzu') {
                 chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)').adjust({ type: "dodge" });
-            } else if (states.allocation.kinds.indexOf("duidie") !== -1) {
+            } else if (states.allocation.kinds === 'duidie') {
                 chart.intervalStack().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             } else {
                 chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
@@ -84,7 +84,7 @@ let chartType = (type, keys) => {
                 showTitle: false,
                 itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
             });
-            if (states.allocation.kinds.indexOf('base') !== -1) {
+            if (states.allocation.kinds === 'base') {
                 states.chart.chart.coord('theta', {
                     radius: 0.75
                 });
@@ -107,7 +107,7 @@ let chartType = (type, keys) => {
                         lineWidth: 1,
                         stroke: '#fff'
                     });
-            } else if (states.allocation.kinds.indexOf('circle') !== -1) {
+            } else if (states.allocation.kinds === 'circle') {
                 chart.coord('theta', {
                     radius: 0.75,
                     innerRadius: 0.6
@@ -147,6 +147,21 @@ let chartType = (type, keys) => {
                         value: height + '(cm), ' + weight + '(kg)'
                     };
                 });
+            break;
+        case 'AreaGraph':
+            common()
+            switch (states.allocation.kinds) {
+                case 'base':
+                    chart.area().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'red');
+                    chart.line().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'red').size(2);
+                    break;
+                case 'duidie':
+                    chart.areaStack().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : '#badeff');
+                    chart.lineStack().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : '#1890ff').size(2);
+                    break;
+                default:
+                    break;
+            }
             break;
         default:
             break;

@@ -53,23 +53,27 @@ export default class AddGraph extends Component {
       {
         key: "BarGraph",
         content: "柱状图",
-        src: require("./bar.png"),
+        src: require("./BarGraph.png"),
       },
       {
         key: "LineGraph",
         content: "折线图",
-        src: require("./line.png"),
+        src: require("./LineGraph.png"),
       },
       {
         key: "PieGraph",
         content: "饼图",
-        src: require("./pie.png"),
+        src: require("./PieGraph.png"),
       },
       {
         key: "PointGraph",
         content: "散点图",
-        src: require("./point.png"),
-      },
+        src: require("./PointGraph.png"),
+      }, {
+        key: 'AreaGraph',
+        content: '面积图',
+        src: require('./AreaGraph.png')
+      }
       // {
       //   key: "CandleGraph",
       //   content: "烛形图",
@@ -95,8 +99,8 @@ export default class AddGraph extends Component {
               }} key={item.key}>
                 <Card className="my-card"
                   hoverable
-                  style={{ width: 240, height: 207 }}
-                  cover={<img style={{ width: "100%", height: "100%" }} alt={item.key} src={item.src} />}
+                  style={{ width: '30%', height: 207 }}
+                  cover={<img style={{ width: "100%", height: '140px' }} alt={item.key} src={item.src} />}
                   key={item.key}
                   onClick={this.handleCardClick}
                 >

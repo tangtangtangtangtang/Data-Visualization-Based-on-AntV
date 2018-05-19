@@ -9,7 +9,7 @@ import { UPDATECHART, UPDATEDS, UPDATEDV, UPDATESLIDER } from '../../../actions/
 import industry from '../industry/industry'
 import chartType from '../industry/chartType'
 
-export default class LineGraph extends Component {
+export default class Graph extends Component {
   componentDidUpdate(prevProps, state) {
     //发生变化时重置
     this.common()

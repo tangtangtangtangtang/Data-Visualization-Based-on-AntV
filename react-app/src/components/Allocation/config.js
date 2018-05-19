@@ -22,7 +22,7 @@ const allocationConfig = {
     AreaGraph: [
         { key: "base", value: "基础面积图" },
         { key: "duidie", value: "堆叠面积图" },
-        { key: "percent", value: "百分比面积图" },
+        // { key: "percent", value: "百分比面积图" },
     ],
     Scale: [
         { key: "cat", value: "cat" },
