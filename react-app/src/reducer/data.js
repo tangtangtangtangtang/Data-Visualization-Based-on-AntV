@@ -12,6 +12,9 @@ const csvData = (state = {
     let result = deepClone(state)
     switch (action.type) {
         case UPDATEDATA:
+            if (action.value.length === 0) {
+                break
+            }
             //data    
             if (typeof action.value === 'string') {
                 result.data = csvParse(action.value)

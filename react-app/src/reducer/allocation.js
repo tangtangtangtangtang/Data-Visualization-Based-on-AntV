@@ -1,9 +1,10 @@
-import { UPDATEALLOCATIONKINDS, UPDATEALLOCATIONSCALE, FLASHALLOCATIONSCALE, CLEARALLOCATION, INITALLOCATION } from '../actions/actionType'
+import { UPDATEALLOCATIONKINDS, UPDATEALLOCATIONCOORD, UPDATEALLOCATIONSCALE, FLASHALLOCATIONSCALE, CLEARALLOCATION, INITALLOCATION } from '../actions/actionType'
 
 const allocation = (state = {
     kinds: ["base"],
     toolTip: [],
     scale: {},
+    coord: '',
     legend: []
 }, action) => {
     let result = JSON.parse(JSON.stringify(state))
@@ -17,11 +18,15 @@ const allocation = (state = {
         case FLASHALLOCATIONSCALE:
             result.scale = {};
             break;
+        case UPDATEALLOCATIONCOORD:
+            result.coord = action.value;
+            break;
         case CLEARALLOCATION:
             result = {
                 kinds: ["base"],
                 toolTip: [],
                 scale: {},
+                coord: '',
                 legend: []
             }
             break;

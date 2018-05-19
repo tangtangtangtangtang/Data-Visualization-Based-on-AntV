@@ -34,7 +34,7 @@ class WrapRow extends Component {
                 <span className="rowNum">{this.props.rowNum + 1}</span>
                 {
                     this.props.columnNum.map((item, index) => {
-                        return <WrapInput id={this.props.rowNum + "-" + index} cellValue={this.props.rowData[index]} onCellValueChange={this.props.onCellValueChange} />
+                        return <WrapInput key={index} id={this.props.rowNum + "-" + index} cellValue={this.props.rowData[index]} onCellValueChange={this.props.onCellValueChange} />
                     })
                 }
             </div>
@@ -109,12 +109,12 @@ class EditableCell extends Component {
                 <span className="rowNum">0</span>
                 {
                     dataArray[0].map((item, index) => {
-                        return <span className="topprefix">{xName[index]}</span>
+                        return <span key={xName[index]} className="topprefix">{xName[index]}</span>
                     })
                 }
                 {
                     dataArray.map((item, index) => {
-                        return <WrapRow columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} rowData={this.props.excelData[index]} />
+                        return <WrapRow key={index} columnNum={dataArray[0]} rowNum={index} onCellValueChange={this.props.onCellValueChange} rowData={this.props.excelData[index]} />
                     })
                 }
                 <Upload style={{ position: "absolute", right: "19%", bottom: "1%" }} {...uploadProps}>

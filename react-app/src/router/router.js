@@ -4,7 +4,6 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 import menuConfigs from "../config";
-import HashRouter from "react-router-dom/HashRouter";
 
 export default class AppRoutes extends Component {
   constructor(props) {

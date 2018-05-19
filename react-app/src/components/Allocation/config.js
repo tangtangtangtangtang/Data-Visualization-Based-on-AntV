@@ -33,7 +33,7 @@ const allocationConfig = {
         { key: "time", value: "time" },
     ],
     coord: [
-        { key: "rotate", value: "旋转" },
+        { key: 'none', value: '无' },
         { key: "transpose", value: "XY轴转置" },
         { key: "reflect", value: "坐标系转置" },
     ]

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import RightSidePanel from '../../RightSidePanel/index'
 import allocationConfig from '../config'
 import { message, Select, InputNumber, Col, Row, Form, Button, Input, Slider } from 'antd'
-import { ALLOCATIONCHANGED, GRAPHNAMECHANGED, GRAPHIDCHANGED, UPDATEALLOCATIONSCALE, UPDATEALLOCATIONKINDS, FLASHALLOCATIONSCALE } from '../../../actions/actionType'
+import { ALLOCATIONCHANGED, GRAPHNAMECHANGED, UPDATEALLOCATIONCOORD, GRAPHIDCHANGED, UPDATEALLOCATIONSCALE, UPDATEALLOCATIONKINDS, FLASHALLOCATIONSCALE } from '../../../actions/actionType'
 import deepClone from 'lodash.clonedeep'
 import Axios from 'axios';
 import store from '../../../store'
@@ -10,7 +10,8 @@ import store from '../../../store'
 export default class GeomAllocation extends Component {
     constructor(props) {
         super(props);
-        this.allocationChange = this.allocationChange.bind(this)
+        this.allocationKindsChange = this.allocationKindsChange.bind(this)
+        this.allocationCoordChange = this.allocationCoordChange.bind(this)
         this.drawPicture = this.drawPicture.bind(this)
         this.createData = this.createData.bind(this)
         this.formChange = this.formChange.bind(this)
@@ -65,8 +66,12 @@ export default class GeomAllocation extends Component {
     }
 
     //图标细分类型变化
-    allocationChange(value) {
+    allocationKindsChange(value) {
         this.props.onAllocationChange(UPDATEALLOCATIONKINDS, value)
+    }
+
+    allocationCoordChange(value) {
+        this.props.onAllocationChange(UPDATEALLOCATIONCOORD, value)
     }
 
     createData(key, value) {
@@ -115,9 +120,17 @@ export default class GeomAllocation extends Component {
             <Row>
                 <Col span={10}>
                     类型：
-                    <Select onChange={this.allocationChange} defaultValue={kindsConfig[0].key} style={{ width: 140 }}>
+                    <Select onChange={this.allocationKindsChange} defaultValue={kindsConfig[0].key} style={{ width: 140 }}>
                         {kindsConfig && kindsConfig.map(item => {
-                            return <Select.Option value={item.key}>{item.value}</Select.Option>
+                            return <Select.Option key={item.key} value={item.key}>{item.value}</Select.Option>
+                        })}
+                    </Select>
+                </Col>
+                <Col span={10}>
+                    坐标轴：
+                    <Select onChange={this.allocationCoordChange} defaultValue={allocationConfig.coord[0].key} style={{ width: 140 }}>
+                        {allocationConfig && allocationConfig.coord.map(item => {
+                            return <Select.Option key={item.key} value={item.key}>{item.value}</Select.Option>
                         })}
                     </Select>
                 </Col>
@@ -125,16 +138,6 @@ export default class GeomAllocation extends Component {
             {
                 Array.isArray(this.state.form) ? this.state.form.slice(0, 2) : ""
             }
-            <Row>
-                <Col span={10}>
-                    坐标轴：
-                    <Select onChange={this.allocationChange} defaultValue={allocationConfig.coord[0].key} style={{ width: 140 }}>
-                        {allocationConfig && allocationConfig.coord.map(item => {
-                            return <Select.Option id="coord" value={item.key}>{item.value}</Select.Option>
-                        })}
-                    </Select>
-                </Col>
-            </Row>
             <Input addonBefore={'名字：'} value={store.getState().graphManger.name} onChange={this.onGraphNameChange} style={{ position: "absolute", width: '40%', bottom: "1%", right: "38%" }}></Input>
             <Button onClick={this.savePicture} style={{ position: "absolute", bottom: "1%", right: "19%" }}>保存</Button>
             <Button onClick={this.drawPicture} style={{ position: "absolute", bottom: "1%", right: "1%" }}>绘制</Button>

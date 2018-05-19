@@ -70,6 +70,8 @@ export default class ExhibitionTable extends Component {
                                     </Card>
                                 </Link>
                             </Col>
+                        } else {
+                            return ''
                         }
                     })
                 }

@@ -15,6 +15,7 @@ export const FLASHALLOCATIONSCALE = 'flashAllocationScale'
 export const UPDATEALLOCATIONSCALE = 'updateAllocationScale'
 export const CLEARALLOCATION = 'clearallocation'
 export const INITALLOCATION = 'initAllocation'
+export const UPDATEALLOCATIONCOORD = 'updateAllocationCoord'
 
 //data相关
 export const UPDATEDATA = 'updateData'

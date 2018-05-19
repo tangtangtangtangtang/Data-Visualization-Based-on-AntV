@@ -28,7 +28,7 @@ export default class LineGraph extends Component {
   }
 
   common() {
-    if (this.props.graphManger.allocation) {
+    if (this.props.graphManger.allocation && this.props.data.data.length > 0) {
       delete this.props.chart.ds.views.normal;
       let dv = industry.dv()
       this.props.onChartChange(UPDATEDV, dv)

@@ -70,11 +70,11 @@ export default class AddGraph extends Component {
         content: "散点图",
         src: require("./point.png"),
       },
-      {
-        key: "CandleGraph",
-        content: "烛形图",
-        src: require("./candle.png"),
-      },
+      // {
+      //   key: "CandleGraph",
+      //   content: "烛形图",
+      //   src: require("./candle.png"),
+      // },
     ]
 
     return (

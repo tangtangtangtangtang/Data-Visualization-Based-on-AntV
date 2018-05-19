@@ -6,6 +6,14 @@ let common = () => {
     let chart = states.chart.chart;
     //载入数据
     chart.source(states.chart.dv);
+    //scale操作
+    if (JSON.stringify(states.allocation.scale) !== '{}') {
+        industry.scale()
+    }
+}
+
+let startCommon = () => {
+    let states = store.getState();
     //根据scale的转换操作
     for (let i in states.allocation.scale) {
         let allocationObject = states.allocation.scale[i]
@@ -14,15 +22,32 @@ let common = () => {
             industry.transform('mapToFloat', { field: i })
         }
     }
-    //scale操作
-    if (JSON.stringify(states.allocation.scale) !== '{}') {
-        industry.scale()
+}
+
+let endCommon = (type) => {
+    let states = store.getState();
+    let chart = states.chart.chart
+    if (['LineGraph', 'BarGraph', 'PointGraph'].indexOf(type) !== -1) {
+        switch (states.allocation.coord) {
+            case 'transpose':
+                chart.coord().transpose()
+                break;
+            case 'reflect':
+                chart.coord().reflect();
+                break;
+            case 'none':
+                chart.coord();
+                break;
+            default:
+                break;
+        }
     }
 }
 
 let chartType = (type, keys) => {
     let states = store.getState();
     let chart = states.chart.chart;
+    startCommon()
     switch (type) {
         case 'LineGraph':
             //数据操作
@@ -126,6 +151,7 @@ let chartType = (type, keys) => {
         default:
             break;
     }
+    endCommon(type)
 }
 
 export default chartType
