@@ -18,7 +18,7 @@ export default class RightSidePanel extends Component {
             <React.Fragment>
                 <div style={this.props.expandOrNot ? { right: this.props.moveDistance || 0 } : { right: -420 }} className={"mypanel"}>
                     {this.props.content}
-                    <Icon style={this.props.IconTop ? { top: this.props.IconTop, color: this.props.color } : { top: "50%", color: this.props.color }} onClick={this.expand} className="expand" type="expand-red" />
+                    <Icon style={this.props.IconTop ? { top: this.props.IconTop, color: this.props.color } : { top: "50%", color: this.props.color }} onClick={this.expand} className="expand" type="expand-black" />
                 </div>
             </React.Fragment>
         )

@@ -8,7 +8,8 @@ import { Row, Col } from "antd";
 //各种allocation
 import DataCellTable from "../DataCell/index";
 import GeomAllocation from './GeomAllocation/index'
-
+import TopSidePanel from '../TopSidePanel/TopSidePanel.component'
+import ExhibitionTable from '../ExhibitionTable/index'
 export default class graphContainer extends Component {
     render() {
         return (
@@ -19,6 +20,7 @@ export default class graphContainer extends Component {
                     </Col>
                 </Row>
                 <GeomAllocation graphType={window.location.hash.replace("#", "")} />
+                <TopSidePanel IconTop="20%" color="black" content={<ExhibitionTable />} />
                 <DataCellTable />
             </React.Fragment>
         )
