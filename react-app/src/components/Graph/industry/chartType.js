@@ -27,7 +27,7 @@ let startCommon = () => {
 let endCommon = (type) => {
     let states = store.getState();
     let chart = states.chart.chart
-    if (['LineGraph', 'BarGraph', 'PointGraph', 'AreaGraph'].indexOf(type) !== -1) {
+    if (['LineGraph', 'BarGraph', 'PointGraph', 'AreaGraph', 'WordCloud'].indexOf(type) !== -1) {
         switch (states.allocation.coord) {
             case 'transpose':
                 chart.coord().transpose()
@@ -150,6 +150,7 @@ let chartType = (type, keys) => {
             break;
         case 'AreaGraph':
             common()
+            console.log(states.chart.dv.range(keys[0]))
             switch (states.allocation.kinds) {
                 case 'base':
                     chart.area().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'red');
@@ -162,6 +163,36 @@ let chartType = (type, keys) => {
                 default:
                     break;
             }
+            break;
+        case 'WordCloud':
+            industry.shape('WordCloud');
+            var range = states.chart.dv.range(keys[1]);
+            var min = range[0];
+            var max = range[1];
+            states.chart.dv.transform({
+                type: 'tag-cloud',
+                fields: [keys[0], keys[1]],
+                font: 'serif',
+                padding: 0,
+                timeInterval: 5000, // max execute time
+                spiral: 'archimedean',
+                fontSize: function fontSize(row) {
+                    if (row[keys[1]]) {
+                        return (row[keys[1]] - min) / (max - min) * (80 - 24) + 24;
+                    }
+                    return 0;
+                },
+                text(row) {
+                    return row
+                }
+            });
+            states.chart.chart.legend(false);
+            states.chart.chart.axis(false);
+            states.chart.chart.tooltip({
+                showTitle: false
+            });
+            states.chart.chart.point().position(`x*y`).color('text').shape('cloud').tooltip(`${keys[0]}*${keys[1]}`);
+            states.chart.chart.render();
             break;
         default:
             break;

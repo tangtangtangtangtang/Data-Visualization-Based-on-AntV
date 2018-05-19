@@ -1,5 +1,6 @@
 import store from '../../../store';
 import deepClone from 'lodash.clonedeep'
+import G2 from '@antv/g2'
 export default {
     keys: () => {
         let result = store.getState().data.keys;
@@ -102,8 +103,38 @@ export default {
     coord: () => {
 
     },
-    //slider
-
+    //shape
+    shape: (type) => {
+        function getTextAttrs(cfg) {
+            return Object.assign({}, {
+                fillOpacity: cfg.opacity,
+                fontSize: cfg.origin._origin.size,
+                rotate: cfg.origin._origin.rotate,
+                text: cfg.origin._origin.text,
+                textAlign: 'center',
+                fontFamily: cfg.origin._origin.font,
+                fill: cfg.color,
+                textBaseline: 'Alphabetic'
+            }, cfg.style);
+        }
+        switch (type) {
+            case 'WordCloud':
+                G2.Shape.registerShape('point', 'cloud', {
+                    drawShape: function drawShape(cfg, container) {
+                        var attrs = getTextAttrs(cfg);
+                        return container.addShape('text', {
+                            attrs: Object.assign(attrs, {
+                                x: cfg.x,
+                                y: cfg.y
+                            })
+                        });
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+    }
 }
     //scale
 
