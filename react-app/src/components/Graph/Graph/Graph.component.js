@@ -19,7 +19,8 @@ export default class Graph extends Component {
   componentDidMount() {
     let chart = new G2.Chart({
       container: 'chartContainer',
-      forceFit: true
+      forceFit: true,
+      height: 600,
     });
     let ds = new DateSet();
     this.props.onChartChange(UPDATECHART, chart)
@@ -38,6 +39,7 @@ export default class Graph extends Component {
 
   slider() {
     industry.ds('sliderState');
+    industry.transform('filterSlider')
     const slider = new Slider({
       container: 'sliderContainer',
       start: this.props.data.start,
@@ -60,7 +62,6 @@ export default class Graph extends Component {
     chart.render();
     //slider
     if (['LineGraph', 'BarGraph', 'PointGraph'].indexOf(window.location.hash.replace('#', '')) !== -1 && this.props.data.data.length > 10) {
-      industry.transform('filterSlider')
       Object.keys(this.props.chart.slider).length > 0 ? this.props.chart.slider.destroy() : '';
       this.slider()
       this.props.chart.slider.render();

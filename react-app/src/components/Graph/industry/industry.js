@@ -33,7 +33,18 @@ export default {
                 states.chart.dv.transform({
                     type: 'filter',
                     callback(row) {
-                        return row[states.data.xAxis] >= states.chart.ds.state.start && row[states.data.xAxis] <= states.chart.ds.state.end
+                        //是否为时间类型
+                        let data = row[states.data.xAxis];
+                        let dataTime = new Date(data).getTime();
+                        let start = states.chart.ds.state.start;
+                        let startTime = new Date(start).getTime();
+                        let end = states.chart.ds.state.end;
+                        let endTime = new Date(end).getTime();
+                        if (dataTime) {
+                            return dataTime >= startTime && dataTime <= endTime
+                        } else {
+                            return data >= start && data <= end
+                        }
                     }
                 })
                 break;
@@ -73,7 +84,7 @@ export default {
                     type: 'percent',
                     field: keys[1],
                     dimension: keys[0],
-                    groupBy: [keys[2]],
+                    // groupBy: [keys[2] ? keys[2] : ''],
                     as: 'percent'
                 });
                 break;

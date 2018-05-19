@@ -14,7 +14,7 @@ export class MySider extends Component {
 
   render() {
     let menuConfig = menuConfigs.find(item => item.channel === this.props.match.params.channel);
-    if (this.props.match.params.channel === "add") {
+    if (['add', 'main'].indexOf(this.props.match.params.channel) !== -1) {
       return (
         <div></div>
       )

@@ -31,6 +31,18 @@ const allocation = (state = {
             }
             break;
         case INITALLOCATION:
+            let temp = {
+                'kinds': 'base',
+                'toolTip': [],
+                'scale': {},
+                'coord': '',
+                'legend': []
+            }
+            for (let i in temp) {
+                if (action.value[i] === undefined) {
+                    action.value[i] = temp[i]
+                }
+            }
             result = action.value
             break;
         default:

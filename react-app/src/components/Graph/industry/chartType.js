@@ -12,16 +12,11 @@ let common = () => {
     }
 }
 
-let startCommon = () => {
-    let states = store.getState();
-    //根据scale的转换操作
-    for (let i in states.allocation.scale) {
-        let allocationObject = states.allocation.scale[i]
-        //todo 最大值小于最小值的限定s
-        if (['linear', 'pow', 'log'].indexOf(allocationObject.type) !== -1) {
-            industry.transform('mapToFloat', { field: i })
-        }
-    }
+let startCommon = (type) => {
+    // let states = store.getState();
+    // if (['PieGraph'].indexOf(type) !== -1) {
+    //     industry.transform('mapToFloat', { field: i })
+    // }
 }
 
 let endCommon = (type) => {
@@ -47,7 +42,7 @@ let endCommon = (type) => {
 let chartType = (type, keys) => {
     let states = store.getState();
     let chart = states.chart.chart;
-    startCommon()
+    startCommon(type)
     switch (type) {
         case 'LineGraph':
             //数据操作
@@ -55,6 +50,7 @@ let chartType = (type, keys) => {
                 keys = industry.transform('fold', { keys });
             }
             common()
+            states.chart.chart.coord('rect');
             if (states.allocation.kinds === 'hv') {
                 chart.line().position(`${keys[0]}*${keys[1]}`).shape("hv").color(keys[2] ? keys[2] : 'rgb(48, 189, 115)');
             } else {
@@ -68,6 +64,7 @@ let chartType = (type, keys) => {
                 keys = industry.transform('fold', { keys });
             }
             common();
+            states.chart.chart.coord('rect');
             if (states.allocation.kinds === 'fenzu') {
                 chart.interval().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'rgb(48, 189, 115)').adjust({ type: "dodge" });
             } else if (states.allocation.kinds === 'duidie') {
@@ -78,6 +75,7 @@ let chartType = (type, keys) => {
             break;
         case 'PieGraph':
             //数据操作
+            industry.transform('mapToFloat', { field: keys[1] })
             industry.transform('percent', { keys })
             common();
             states.chart.chart.tooltip({
@@ -93,11 +91,12 @@ let chartType = (type, keys) => {
                     .color(keys[0])
                     .label('percent', {
                         formatter: (val, item) => {
+                            val = (val * 100).toFixed(2) + '%';
                             return item.point[keys[0]] + ': ' + val;
                         }
                     })
                     .tooltip(`${keys[0]}*percent`, (item, percent) => {
-                        percent = percent * 100 + '%';
+                        percent = (percent * 100).toFixed(2) + '%';
                         return {
                             name: item,
                             value: percent
@@ -117,11 +116,12 @@ let chartType = (type, keys) => {
                     .color(keys[0])
                     .label('percent', {
                         formatter: (val, item) => {
+                            val = (val * 100).toFixed(2) + '%';
                             return item.point[keys[0]] + ': ' + val;
                         }
                     })
                     .tooltip(`${keys[0]}*percent`, (item, percent) => {
-                        percent = percent * 100 + '%';
+                        percent = (percent * 100).toFixed(2) + '%';
                         return {
                             name: item,
                             value: percent
@@ -135,6 +135,7 @@ let chartType = (type, keys) => {
             break;
         case 'PointGraph':
             common();
+            states.chart.chart.coord('rect');
             //坐标操作
             chart.point().position(`${keys[0]}*${keys[1]}`)
                 .color(`${keys[2]}`)
@@ -144,13 +145,13 @@ let chartType = (type, keys) => {
                 .tooltip(`${keys[2]}*${keys[1]}*${keys[0]}`, (gender, height, weight) => {
                     return {
                         name: gender,
-                        value: height + '(cm), ' + weight + '(kg)'
+                        value: height + ' , ' + weight + ''
                     };
                 });
             break;
         case 'AreaGraph':
             common()
-            console.log(states.chart.dv.range(keys[0]))
+            states.chart.chart.coord('rect');
             switch (states.allocation.kinds) {
                 case 'base':
                     chart.area().position(`${keys[0]}*${keys[1]}`).color(keys[2] ? keys[2] : 'red');

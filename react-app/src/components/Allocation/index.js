@@ -4,7 +4,8 @@ import Allocation from './Allocation.component'
 
 const mapStateToProps = (state, props) => {
   return {
-    allocation: state.allocation
+    allocation: state.allocation,
+    graph: state.graphManger
   }
 }
 

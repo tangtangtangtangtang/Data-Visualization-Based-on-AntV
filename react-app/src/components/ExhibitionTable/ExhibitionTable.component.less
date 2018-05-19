@@ -1,0 +1,32 @@
+.toc-affix {
+    position: absolute;
+    top: 60px;
+    right: -20px;
+    width: 110px;
+    .toc {
+        padding-left: 0;
+        list-style: none;
+        font-size: 12px;
+        margin: 16px 0;
+        border-left: 1px solid #ebedf0;
+        li:not(:last-child) {
+            margin-bottom: 4px;
+        }
+        a {
+            padding-left: 16px;
+            display: block;
+            -webkit-transition: all .3s ease;
+            transition: all .3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #314659;
+            width: 110px;
+            border-left: 1px solid transparent;
+            margin-left: -1px
+        }
+        a:hover {
+            color: #1890ff
+        }
+    }
+}

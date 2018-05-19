@@ -21,7 +21,9 @@ export default class TopSidePanel extends Component {
         return (
             <React.Fragment>
                 <div style={this.state.expandOrNot ? { top: 0 } : { top: -500 }} className={"mytoppanel"}>
-                    {this.props.content}
+                    <div style={{ height: '500px', width: '100%', overflowY: 'scroll' }}>
+                        {this.props.content}
+                    </div>
                     <Icon style={{ color: 'black' }} onClick={this.expand} className="topexpand" type="expandDown" />
                 </div>
             </React.Fragment>

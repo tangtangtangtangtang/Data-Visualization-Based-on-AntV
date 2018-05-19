@@ -231,6 +231,7 @@ class RowForm extends Component {
                 </Form.Item>
             </Col>,
         };
+        //饼图x轴不能有linear pow log todo细化配置
         let combination = {
             'linear': ['min', 'max', 'tickCount', 'formatter'],
             'cat': ['range', 'tickCount', 'formatter'],
